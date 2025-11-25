@@ -276,6 +276,15 @@
         animation: pop 240ms ease;
       }
 
+      /* Evita que el modal oculte toda la página si Tailwind no carga. */
+      #modal {
+        display: none;
+      }
+
+      #modal.active {
+        display: flex;
+      }
+
       @keyframes pop {
         0% {
           transform: translateY(18px);
@@ -663,12 +672,12 @@
 
       function openModal() {
         modal.classList.remove("hidden");
-        modal.classList.add("flex");
+        modal.classList.add("flex", "active");
       }
 
       function closeModalView() {
         modal.classList.add("hidden");
-        modal.classList.remove("flex");
+        modal.classList.remove("flex", "active");
       }
 
       function startSequence() {
