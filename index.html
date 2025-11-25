@@ -3,783 +3,303 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Webmeme - Regalo Troll</title>
+    <title>Regalo 100% Real - No Fake</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/lucide-react@0.418.0/dist/lucide-react.umd.js"></script>
     <style>
+      :root {
+        --pink: #ff4fa3;
+        --hotpink: #ff1493;
+        --yellow: #fff176;
+      }
       body {
-        background: linear-gradient(135deg, #ff69b4 0%, #ffb6c1 100%);
+        background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.14), transparent 35%),
+          radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.14), transparent 25%),
+          linear-gradient(135deg, #ffd5f1 0%, #ff8ac5 45%, #ff62b0 100%);
+        font-family: "Comic Sans MS", "Comic Neue", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      .bg-noisy {
+        background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+        background-size: 14px 14px;
+      }
+      .scanline::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.2) 1px, transparent 1px, transparent 3px);
+        mix-blend-mode: screen;
+        pointer-events: none;
+        opacity: 0.2;
+      }
+      .pop {
+        filter: drop-shadow(8px 8px 0 #111);
+      }
+      .marquee span {
+        animation: marquee 18s linear infinite;
+      }
+      @keyframes marquee {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-100%);
+        }
+      }
+      .blink {
+        animation: blink 0.8s steps(2, start) infinite;
       }
       @keyframes blink {
-        0%,
-        100% {
-          opacity: 1;
+        to {
+          visibility: hidden;
+        }
+      }
+      .wiggle {
+        animation: wiggle 0.4s ease-in-out infinite;
+      }
+      @keyframes wiggle {
+        0% {
+          transform: rotate(-1deg) translateY(0);
         }
         50% {
-          opacity: 0;
-        }
-      }
-      @keyframes shake {
-        0% {
-          transform: translate(1px, 1px) rotate(0deg);
-        }
-        10% {
-          transform: translate(-1px, -2px) rotate(-1deg);
-        }
-        20% {
-          transform: translate(-3px, 0px) rotate(1deg);
-        }
-        30% {
-          transform: translate(3px, 2px) rotate(0deg);
-        }
-        40% {
-          transform: translate(1px, -1px) rotate(1deg);
-        }
-        50% {
-          transform: translate(-1px, 2px) rotate(-1deg);
-        }
-        60% {
-          transform: translate(-3px, 1px) rotate(0deg);
-        }
-        70% {
-          transform: translate(3px, 1px) rotate(-1deg);
-        }
-        80% {
-          transform: translate(-1px, -1px) rotate(1deg);
-        }
-        90% {
-          transform: translate(1px, 2px) rotate(0deg);
+          transform: rotate(1deg) translateY(-2px);
         }
         100% {
-          transform: translate(1px, -2px) rotate(-1deg);
+          transform: rotate(-1deg) translateY(0);
         }
-      }
-      @keyframes fadeOut {
-        0% {
-          opacity: 1;
-          transform: translate(-50%, -50%) scale(1);
-        }
-        100% {
-          opacity: 0;
-          transform: translate(-50%, -150%) scale(0.5);
-        }
-      }
-      @keyframes typing {
-        from {
-          width: 0;
-        }
-        to {
-          width: 100%;
-        }
-      }
-      @keyframes slideInFromBottom {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .blink-text {
-        animation: blink 0.5s infinite;
-      }
-      .animate-shake {
-        animation: shake 0.5s infinite;
-      }
-      .animate-fade-out {
-        animation: fadeOut 0.8s forwards;
-      }
-      .typing-effect {
-        overflow: hidden;
-        white-space: nowrap;
-        animation: typing 3.5s steps(40, end);
-      }
-      .animate-in {
-        animation-fill-mode: both;
-      }
-      .slide-in-from-bottom {
-        animation-name: slideInFromBottom;
-      }
-      .duration-300 {
-        animation-duration: 0.3s;
       }
     </style>
   </head>
-  <body class="min-h-screen">
-    <div id="root"></div>
+  <body class="text-black min-h-screen flex flex-col items-center">
+    <header class="w-full bg-black text-white text-center py-3 shadow-lg uppercase text-xs tracking-[0.2em]">
+      100% Regalo Real | No virus | No timos (creo)
+    </header>
 
-    <script type="text/babel">
-      const { useState, useEffect, useCallback } = React;
-      const {
-        AlertTriangle,
-        Gift,
-        Download,
-        X,
-        Heart,
-        Smartphone,
-        Wifi,
-        Battery,
-        Siren,
-        MousePointer,
-        Skull,
-        RefreshCw,
-        Users,
-        MessageCircle,
-        ShieldAlert,
-        Bell,
-        Signal,
-        HelpCircle,
-      } = LucideReact;
-
-      // ==================================================================================
-      //  ZONA DE CONFIGURACIÓN
-      // ==================================================================================
-
-      const LISTA_DE_BROMAS = [
-        {
-          type: "alert",
-          title: "⚠️ ERROR DE SISTEMA ⚠️",
-          message:
-            "TU DISPOSITIVO TIENE EXCESO DE FLOW. POR FAVOR REINICIA EL CEREBRO.",
-          buttonText: "Aceptar y llorar",
-        },
-        {
-          type: "image",
-          title: "TE LO CREÍSTE XD",
-          url: "https://media1.tenor.com/m/x8v1o5Q8iJIAAAAd/rickroll-roll.gif",
-          text: "¿En serio pensaste que sería tan fácil?",
-          buttonText: "Bueno ya, dame mi regalo",
-        },
-        {
-          type: "image",
-          title: "MIRA ESTO ATENTAMENTE",
-          url: "https://i.ibb.co/67qgMynM/QVZj-VFNh-S0-Zt-OEp-GZEZ4-QQ.jpg",
-          text: "JAJAJAJAJA CAÍSTE OTRA VEZ",
-          buttonText: "BASTA YA",
-        },
-        {
-          type: "alert",
-          title: "VIRUS DETECTADO: TROYANO.KITTY.EXE",
-          message:
-            'Se ha detectado un archivo "regalo_falso.zip". ¿Desea formatear la vida de su padrino/madrina?',
-          buttonText: "NOOO, CANCELAR",
-        },
-        {
-          type: "video",
-          title: "TUTORIAL PARA DESCARGAR REGALO",
-          videoId: "-o849SEUQiQ",
-          text: "Sigue los pasos atentamente...",
-          buttonText: "Ya vi suficiente, dame el regalo real",
-        },
-        {
-          type: "image",
-          title: "ESTE SÍ ES EL BUENO",
-          url: "https://media.tenor.com/2XyC6uQ3eRsAAAAM/cat-huh.gif",
-          text: "Hacer click aquí para descargar RAM gratis.",
-          buttonText: "YA BASTA POR FAVOR",
-        },
-      ];
-
-      const REGALO_FINAL = {
-        title: "✨ ¡FELICIDADES! ✨",
-        message: "Ya, ahora sí es en serio. Te quiero mucho ahijada.",
-        subtext:
-          "Aquí está tu regalo real (o tal vez no... na mentira si es).",
-        code: "VALE POR UNA SALIDA A COMER O LO QUE TU QUIERAS",
-      };
-
-      // --- ANUNCIOS ---
-      const REGULAR_ADS = [
-        {
-          id: "gatitas",
-          title: "¿GATITAS SOLAS CERCA DE TI?",
-          text: "Chatea ahora gratis",
-          color: "bg-pink-300",
-          icon: Heart,
-          link: "https://www.youtube.com/watch?v=2yJgwwDcgV8",
-        },
-        {
-          id: "iphone_trap",
-          title: "GANASTE UN IPHONE 25",
-          text: "Reclamar antes de que explote",
-          color: "bg-yellow-200",
-          icon: Smartphone,
-          link: "https://www.youtube.com/watch?v=-o849SEUQiQ",
-          isTrap: true,
-        },
-        {
-          id: "ventilador",
-          title: "ALERT: TU CELULAR TIENE CALOR",
-          text: "Descargar ventilador app",
-          color: "bg-blue-300",
-          icon: Siren,
-          link: "https://www.youtube.com/watch?v=1msm0-rXlo4",
-        },
-      ];
-
-      const CHAOS_ADS = [
-        {
-          id: "dinero_payaso",
-          title: "DINERO GRATIS",
-          text: "Click rapido",
-          color: "bg-green-300",
-          icon: Download,
-          link: "https://i.pinimg.com/736x/ce/e8/f8/cee8f88d931ae2cbd4161e389f2792b2.jpg",
-        },
-        {
-          id: "visitante_trombone",
-          title: "ERES EL VISITANTE 1.000.000",
-          text: "Reclamar premio",
-          color: "bg-purple-300",
-          icon: Gift,
-          link: "https://www.youtube.com/watch?v=CQeezCdF4mk",
-        },
-        {
-          id: "boton_triste",
-          title: "CLICKEA AQUÍ POR FAVOR",
-          text: "Soy un botón triste",
-          color: "bg-orange-300",
-          icon: MousePointer,
-          link: "https://www.youtube.com/watch?v=jXn35h6cv88",
-        },
-      ];
-
-      const ALL_ADS_DATA = [...REGULAR_ADS, ...CHAOS_ADS].reduce((acc, ad) => {
-        acc[ad.id] = ad;
-        return acc;
-      }, {});
-
-      const FAKE_NOTIFICATIONS = [
-        {
-          title: "Antivirus Expirado",
-          msg: "Tu protección acabó en 1999.",
-          icon: ShieldAlert,
-          color: "bg-red-100 border-red-500",
-        },
-        {
-          title: "Mensaje Nuevo",
-          msg: "Mamá: ¿Por qué descargaste eso?",
-          icon: MessageCircle,
-          color: "bg-green-100 border-green-500",
-        },
-        {
-          title: "Sistema",
-          msg: "Borrando System32...",
-          icon: Skull,
-          color: "bg-gray-100 border-black",
-        },
-        {
-          title: "¡Ganaste!",
-          msg: "Has sido seleccionado para viajar a Marte.",
-          icon: Gift,
-          color: "bg-yellow-100 border-yellow-500",
-        },
-        {
-          title: "FBI",
-          msg: "Sabemos lo que hiciste.",
-          icon: Siren,
-          color: "bg-blue-100 border-blue-800",
-        },
-        {
-          title: "Batería",
-          msg: "Tu batería está al 400%",
-          icon: Battery,
-          color: "bg-pink-100 border-pink-500",
-        },
-      ];
-
-      // --- FRASES DEL ASISTENTE MOLESTO ---
-      const CLIPPY_PHRASES = [
-        "¿Necesitas ayuda?",
-        "Parece que quieres un regalo...",
-        "Borrando fotos...",
-        "¡Cuidado atrás!",
-        "Jejejejeje",
-        "¿Me das tu tarjeta de crédito?",
-        "No toques eso",
-        "Soy una gatita hacker",
-      ];
-
-      // ==================================================================================
-      //  COMPONENTES AUXILIARES
-      // ==================================================================================
-
-      // 1. ASISTENTE FLOTANTE (CLIPPY)
-      const AnnoyingHelper = ({ visible }) => {
-        const [text, setText] = useState("Hola 👋");
-        const [pos, setPos] = useState({ x: 20, y: 100 });
-
-        useEffect(() => {
-          if (!visible) return;
-          const interval = setInterval(() => {
-            setText(
-              CLIPPY_PHRASES[Math.floor(Math.random() * CLIPPY_PHRASES.length)]
-            );
-            setPos({
-              x: Math.max(
-                10,
-                Math.min(
-                  window.innerWidth - 150,
-                  Math.random() * (window.innerWidth - 100)
-                )
-              ),
-              y: Math.max(
-                50,
-                Math.min(
-                  window.innerHeight - 200,
-                  Math.random() * (window.innerHeight - 100)
-                )
-              ),
-            });
-          }, 4000);
-          return () => clearInterval(interval);
-        }, [visible]);
-
-        if (!visible) return null;
-
-        return (
-          <div
-            className="fixed z-50 flex flex-col items-center transition-all duration-1000 ease-in-out pointer-events-none"
-            style={{ left: pos.x, top: pos.y }}
-          >
-            <div className="bg-yellow-100 border-2 border-black p-2 rounded-lg mb-2 text-xs font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] max-w-[120px] text-center typing-effect">
-              {text}
-            </div>
-            <div className="text-4xl animate-bounce">🐱</div>
-          </div>
-        );
-      };
-
-      // 2. ESTELA DEL MOUSE / DEDO
-      const CursorTrail = () => {
-        const [trail, setTrail] = useState([]);
-
-        const handleMove = useCallback((e) => {
-          const { clientX, clientY } = e.touches ? e.touches[0] : e;
-          const id = Date.now();
-          const emoji = Math.random() > 0.5 ? "💖" : "💀";
-
-          setTrail((prev) => [...prev, { x: clientX, y: clientY, id, emoji }].slice(-15));
-
-          setTimeout(() => {
-            setTrail((prev) => prev.filter((t) => t.id !== id));
-          }, 800);
-        }, []);
-
-        useEffect(() => {
-          window.addEventListener("mousemove", handleMove);
-          window.addEventListener("touchmove", handleMove);
-          return () => {
-            window.removeEventListener("mousemove", handleMove);
-            window.removeEventListener("touchmove", handleMove);
-          };
-        }, [handleMove]);
-
-        return (
-          <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
-            {trail.map((t) => (
-              <div
-                key={t.id}
-                className="absolute text-xl animate-fade-out"
-                style={{ left: t.x, top: t.y, transform: "translate(-50%, -50%)" }}
-              >
-                {t.emoji}
-              </div>
-            ))}
-          </div>
-        );
-      };
-
-      // ==================================================================================
-      //  APP PRINCIPAL
-      // ==================================================================================
-
-      const PrankWeb = () => {
-        const [showModal, setShowModal] = useState(false);
-        const [currentBait, setCurrentBait] = useState(null);
-        const [baitIndex, setBaitIndex] = useState(0);
-        const [isFinished, setIsFinished] = useState(false);
-        const [chaosMode, setChaosMode] = useState(false);
-        const [adOrder, setAdOrder] = useState(REGULAR_ADS.map((ad) => ad.id));
-
-        const [progress, setProgress] = useState(0);
-        const [downloadCount, setDownloadCount] = useState(14502);
-        const [btnText, setBtnText] = useState("DESCARGAR AQUÍ");
-        const [blink, setBlink] = useState(true);
-        const [glitch, setGlitch] = useState(false);
-        const [toasts, setToasts] = useState([]);
-
-        useEffect(() => {
-          const interval = setInterval(() => setBlink((b) => !b), 500);
-          return () => clearInterval(interval);
-        }, []);
-
-        useEffect(() => {
-          const glitchInterval = setInterval(() => {
-            if (Math.random() > 0.9) {
-              setGlitch(true);
-              setTimeout(() => setGlitch(false), 200);
-            }
-          }, 2000);
-          return () => clearInterval(glitchInterval);
-        }, []);
-
-        useEffect(() => {
-          const timer = setInterval(() => {
-            setProgress((old) => {
-              if (old >= 99) return 99;
-              if (old > 80 && Math.random() > 0.8) return old - 15;
-              if (Math.random() > 0.6) return old + Math.random() * 5;
-              return old;
-            });
-            setDownloadCount((c) => c + Math.floor(Math.random() * 10));
-          }, 200);
-          return () => clearInterval(timer);
-        }, []);
-
-        useEffect(() => {
-          if (isFinished) return undefined;
-          const spawnRate = chaosMode ? 2000 : 5000;
-          const spawner = setInterval(() => {
-            if (Math.random() > 0.3) {
-              const randomNotif =
-                FAKE_NOTIFICATIONS[
-                  Math.floor(Math.random() * FAKE_NOTIFICATIONS.length)
-                ];
-              const newToast = { ...randomNotif, id: Date.now() + Math.random() };
-              setToasts((prev) => {
-                const updated = [...prev, newToast];
-                if (updated.length > 3) return updated.slice(1);
-                return updated;
-              });
-            }
-          }, spawnRate);
-          return () => clearInterval(spawner);
-        }, [chaosMode, isFinished]);
-
-        const funnyBtnTexts = [
-          "¿ESTÁS SEGURA?",
-          "VIRUS.EXE...",
-          "NO TOQUES",
-          "ESPERA...",
-          "PROCESANDO...",
-          "ERROR 404",
-          "¿SÍ?",
-        ];
-
-        const handleBtnHover = () => {
-          if (!isFinished) {
-            setBtnText(
-              funnyBtnTexts[Math.floor(Math.random() * funnyBtnTexts.length)]
-            );
-          }
-        };
-
-        const shuffleAds = useCallback(() => {
-          setAdOrder((prevOrder) => {
-            const newOrder = [...prevOrder];
-            for (let i = newOrder.length - 1; i > 0; i -= 1) {
-              const j = Math.floor(Math.random() * (i + 1));
-              [newOrder[i], newOrder[j]] = [newOrder[j], newOrder[i]];
-            }
-            return newOrder;
-          });
-        }, []);
-
-        useEffect(() => {
-          if (chaosMode) {
-            setAdOrder((prevOrder) => {
-              const chaosIds = CHAOS_ADS.map((ad) => ad.id);
-              const newIds = chaosIds.filter((id) => !prevOrder.includes(id));
-              const combinedOrder = [...prevOrder, ...newIds];
-              for (let i = combinedOrder.length - 1; i > 0; i -= 1) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [combinedOrder[i], combinedOrder[j]] = [combinedOrder[j], combinedOrder[i]];
-              }
-              return combinedOrder;
-            });
-          }
-        }, [chaosMode]);
-
-        const handleDownloadClick = () => {
-          if (isFinished) return;
-          if (baitIndex < LISTA_DE_BROMAS.length) {
-            setCurrentBait(LISTA_DE_BROMAS[baitIndex]);
-            setShowModal(true);
-          } else {
-            setIsFinished(true);
-            setShowModal(true);
-          }
-        };
-
-        const handleCloseModal = () => {
-          setShowModal(false);
-          if (!isFinished) {
-            setBaitIndex((prev) => prev + 1);
-            if (Math.random() > 0.7) setChaosMode(true);
-          }
-        };
-
-        const removeToast = (id) => {
-          setToasts((prev) => prev.filter((t) => t.id !== id));
-          if (chaosMode && Math.random() > 0.5) {
-            setTimeout(() => {
-              const randomNotif =
-                FAKE_NOTIFICATIONS[
-                  Math.floor(Math.random() * FAKE_NOTIFICATIONS.length)
-                ];
-              setToasts((prev) => [
-                ...prev,
-                { ...randomNotif, id: Date.now() + Math.random() },
-              ]);
-            }, 200);
-          }
-        };
-
-        const FakeAd = ({ id, title, text, color, icon: Icon, link, isTrap, onAdClick }) => (
-          <div
-            className={`border-4 border-black p-2 my-2 ${color} font-bold text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transform active:scale-95 transition-transform duration-100 cursor-pointer relative overflow-hidden`}
-            onClick={() => {
-              if (isTrap) setChaosMode(true);
-              onAdClick();
-              if (link) window.open(link, "_blank");
-              else alert("¡HICISTE CLICK EN UN VIRUS! (Broma)");
-            }}
-          >
-            <div className="absolute top-0 right-0 bg-white text-[10px] px-1 border-l-2 border-b-2 border-black font-mono">
-              AD
-            </div>
-            <div className="flex justify-between items-center border-b-2 border-black mb-1 pb-1">
-              <span className="text-xs blink-text text-red-600">¡OFERTA!</span>
-              <X size={16} />
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              {Icon && (
-                <Icon
-                  size={32}
-                  className={chaosMode && isTrap ? "animate-pulse text-red-600" : "animate-bounce"}
-                />
-              )}
-              <h3 className="text-lg leading-tight uppercase">{title}</h3>
-              <p className="text-xs bg-yellow-300 text-black px-1">{text}</p>
-              <button className="bg-blue-600 text-white text-xs px-2 py-1 mt-1 underline">
-                CLICK AQUÍ
+    <main class="w-full max-w-4xl px-4 py-6 md:py-10">
+      <section class="relative overflow-hidden rounded-3xl border-4 border-black bg-white bg-noisy p-5 md:p-8 shadow-[12px_12px_0_#111]">
+        <div class="scanline absolute inset-0 pointer-events-none"></div>
+        <div class="flex flex-col md:flex-row gap-6 items-center">
+          <div class="flex-1 text-center md:text-left space-y-4">
+            <p class="inline-flex items-center gap-2 bg-black text-white px-3 py-1 rounded-full text-xs font-bold tracking-tight shadow-[4px_4px_0_var(--pink)]">
+              <span class="blink">⬤</span> Oferta misteriosa a 2 km de ti
+            </p>
+            <h1 class="text-3xl md:text-4xl font-black leading-tight text-black">
+              Haz clic aquí para reclamar tu <span class="text-[var(--hotpink)]">súper regalo secreto</span> y deja de ver anuncios de "novias cerca de ti".
+            </h1>
+            <p class="font-semibold text-sm md:text-base text-gray-800">
+              Solo tienes que sobrevivir a unas cuantas pantallas de "haz clic" estilo anuncio sospechoso. Tú controlas cuántas trampas hay, yo pongo los memes.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center gap-4">
+              <label class="flex items-center gap-3 font-bold text-sm bg-yellow-200 border-2 border-black px-3 py-2 rounded-lg shadow-[6px_6px_0_#111]">
+                <span>Pasos troll</span>
+                <input id="stepSlider" type="range" min="1" max="10" value="4" class="accent-[var(--hotpink)]" />
+                <span id="stepCount" class="text-xl text-[var(--hotpink)]">4</span>
+              </label>
+              <button id="startButton" class="flex-1 sm:flex-none bg-[var(--hotpink)] text-white font-black px-6 py-3 rounded-xl border-4 border-black shadow-[8px_8px_0_#111] text-lg active:translate-y-1 active:shadow-none">
+                👉 ¡Quiero mi regalo YA!
               </button>
             </div>
-          </div>
-        );
-
-        const renderAdById = (id) => {
-          const adData = ALL_ADS_DATA[id];
-          if (!adData) return null;
-          let finalTitle = adData.title;
-          let finalIcon = adData.icon;
-          if (chaosMode && adData.isTrap) {
-            finalTitle = "¡¡TU CELULAR VA A EXPLOTAR!!";
-            finalIcon = Skull;
-          }
-          return (
-            <FakeAd
-              key={id}
-              {...adData}
-              title={finalTitle}
-              icon={finalIcon}
-              onAdClick={shuffleAds}
-            />
-          );
-        };
-
-        return (
-          <div
-            className={`min-h-screen ${chaosMode ? "bg-[#ff00ff]" : "bg-[#ff69b4]"} text-black font-sans overflow-x-hidden flex flex-col items-center transition-colors duration-500 pb-20 ${glitch ? "invert scale-105" : ""}`}
-          >
-            <CursorTrail />
-            <AnnoyingHelper visible />
-
-            <div className="w-full bg-black text-white p-2 flex justify-between items-center font-mono text-xs shadow-lg z-20">
-              <div className="flex gap-2">
-                <Wifi size={14} className={chaosMode ? "text-red-500 animate-pulse" : ""} />
-                <span>{chaosMode ? "HACKED..." : "No Service"}</span>
+            <div class="marquee overflow-hidden border-2 border-black rounded-lg bg-black text-[var(--yellow)] font-mono text-xs uppercase shadow-inner">
+              <div class="flex gap-6 py-2 px-3 whitespace-nowrap">
+                <span>⬇️ Descargar cupón premium ahora mismo</span>
+                <span>❤️ Singles cerca de ti quieren tu meme</span>
+                <span>🎁 Regalos gratis en tu zona (sin engaños)</span>
+                <span>⚡ Instala 7 antivirus antes de seguir</span>
               </div>
-              <span className="animate-pulse text-red-500 font-bold">
-                {chaosMode ? "0%" : "1%"} BATERÍA
-              </span>
-              <Battery size={14} className={chaosMode ? "text-red-500" : ""} />
             </div>
-
-            <div className="w-full max-w-md p-2 flex flex-col gap-4 z-10">
-              <header
-                className={`bg-white border-4 border-black p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-center relative mt-2 ${chaosMode ? "animate-shake" : ""}`}
-              >
-                <div className="absolute -top-3 -right-3 bg-yellow-400 border-2 border-black p-1 transform rotate-12">
-                  <span className="font-bold text-xs">¡100% REAL!</span>
-                </div>
-                <h1
-                  className="text-4xl font-black text-[#ff1493] uppercase drop-shadow-md leading-none"
-                  style={{ fontFamily: "Impact" }}
-                >
-                  {chaosMode ? "¡¡DESCARGAR YA!!" : "DESCARGAR REGALO"}
-                </h1>
-                <p className="text-sm font-bold mt-2">v.2.0.24 - NO VIRUS - HELLO KITTY EDITION</p>
-              </header>
-
-              {adOrder.map((id, index) => {
-                if (index === Math.floor(adOrder.length / 2)) {
-                  return (
-                    <React.Fragment key="download-block">
-                      <div className="bg-white border-4 border-black p-4 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden group z-10 transition-colors hover:bg-gray-50">
-                        <div className={`bg-red-600 text-white font-bold p-1 mb-2 ${blink ? "opacity-100" : "opacity-80"}`}>
-                          ⚠️ {chaosMode ? "¡¡ALERTA CRÍTICA!!" : "ATENCIÓN: TU REGALO ESTÁ LISTO"} ⚠️
-                        </div>
-
-                        <div className="w-full bg-gray-200 h-6 border-2 border-black mb-3 relative">
-                          <div
-                            className="h-full bg-green-500 transition-all duration-300"
-                            style={{ width: `${progress}%` }}
-                          ></div>
-                          <span className="absolute inset-0 text-xs font-bold flex items-center justify-center">
-                            CARGANDO... {Math.floor(progress)}%
-                          </span>
-                        </div>
-
-                        <p className="mb-4 font-bold text-lg leading-tight">
-                          {chaosMode
-                            ? "HAZ CLICK RÁPIDO O SE BORRA EL REGALO"
-                            : "Haz click abajo para reclamar premio."}
-                        </p>
-
-                        <button
-                          onClick={handleDownloadClick}
-                          onMouseEnter={handleBtnHover}
-                          onMouseLeave={() =>
-                            setBtnText(isFinished ? "DESCARGAR AHORA" : "DESCARGAR AQUÍ")
-                          }
-                          className={`w-full ${chaosMode ? "bg-red-500 animate-bounce" : "bg-[#00ff00]"} border-4 border-black text-black font-black text-xl py-4 px-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2`}
-                        >
-                          <Download size={28} className={blink ? "opacity-100" : "opacity-50"} />
-                          <span>{isFinished ? "DESCARGAR AHORA" : btnText}</span>
-                        </button>
-
-                        <div className="mt-3 flex items-center justify-center gap-1 text-[10px] font-mono text-gray-600">
-                          <Users size={12} />
-                          <span>Usuarios en línea: {downloadCount.toLocaleString()}</span>
-                        </div>
-
-                        {chaosMode && (
-                          <p className="text-red-600 font-bold text-xs mt-1 blink-text">
-                            TIEMPO RESTANTE: {Math.floor(Math.random() * 10)}s...
-                          </p>
-                        )}
-                      </div>
-                      {renderAdById(id)}
-                    </React.Fragment>
-                  );
-                }
-                return renderAdById(id);
-              })}
-
-              <footer className="mt-4 text-center font-bold text-white text-xs p-4 bg-black border-4 border-white w-full">
-                © 1999-2024 SITIO 100% LEGÍTIMO NO FAKE 1 LINK MEGA
-              </footer>
-            </div>
-
-            <div className="fixed bottom-0 right-0 p-2 flex flex-col gap-2 z-40 w-full max-w-sm pointer-events-none">
-              {toasts.map((toast) => (
-                <div
-                  key={toast.id}
-                  className={`${toast.color} border-2 border-black p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex gap-3 items-start animate-in slide-in-from-bottom duration-300 pointer-events-auto bg-white`}
-                >
-                  <toast.icon className="w-6 h-6 shrink-0" />
-                  <div className="flex-1">
-                    <h4 className="font-bold text-sm uppercase leading-none mb-1">{toast.title}</h4>
-                    <p className="text-xs leading-tight">{toast.msg}</p>
-                  </div>
-                  <button
-                    onClick={() => removeToast(toast.id)}
-                    className="hover:bg-black/10 p-1 rounded border border-black bg-gray-200"
-                  >
-                    <X size={14} />
-                  </button>
-                </div>
-              ))}
-            </div>
-
-            {showModal && (
-              <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-                <div className="bg-white w-full max-w-sm border-4 border-black shadow-[10px_10px_0px_0px_#ff1493] animate-in zoom-in duration-200">
-                  <div className="bg-[#ff1493] text-white font-bold p-2 border-b-4 border-black flex justify-between items-center">
-                    <span>{isFinished ? "System32.exe" : currentBait?.title || "ALERTA"}</span>
-                    <button onClick={handleCloseModal} className="hover:bg-black/20 p-1 rounded">
-                      <X size={20} />
-                    </button>
-                  </div>
-
-                  <div className="p-4 flex flex-col items-center text-center">
-                    {!isFinished ? (
-                      <>
-                        {currentBait?.type === "alert" && (
-                          <AlertTriangle size={64} className="text-yellow-500 mb-4 animate-bounce" />
-                        )}
-
-                        {currentBait?.type === "image" && currentBait.url && (
-                          <img
-                            src={currentBait.url}
-                            alt="Meme"
-                            className="w-full h-auto max-h-[250px] object-contain border-2 border-black mb-4 bg-gray-100"
-                          />
-                        )}
-
-                        {currentBait?.type === "video" && currentBait.videoId && (
-                          <div className="w-full aspect-video mb-4 border-2 border-black bg-black">
-                            <iframe
-                              width="100%"
-                              height="100%"
-                              src={`https://www.youtube.com/embed/${currentBait.videoId}?autoplay=1`}
-                              title="YouTube video player"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
-                            ></iframe>
-                          </div>
-                        )}
-
-                        <h2 className="text-xl font-black mb-2 uppercase leading-tight">{currentBait?.title}</h2>
-                        <p className="font-bold mb-6 text-sm md:text-base">
-                          {currentBait?.message || currentBait?.text}
-                        </p>
-
-                        <button
-                          onClick={handleCloseModal}
-                          className="w-full bg-gray-200 hover:bg-gray-300 border-2 border-black px-6 py-3 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none"
-                        >
-                          {currentBait?.buttonText || "Cerrar"}
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <Gift size={80} className="text-[#ff1493] mb-4 animate-pulse" />
-                        <h2 className="text-2xl font-black mb-2 text-[#ff1493]">{REGALO_FINAL.title}</h2>
-                        <p className="font-bold text-lg mb-4">{REGALO_FINAL.message}</p>
-                        <div className="bg-yellow-200 p-4 border-2 border-black border-dashed w-full mb-4">
-                          <p className="font-mono text-sm mb-2 text-gray-600">TU CÓDIGO/REGALO:</p>
-                          <p className="text-2xl font-black">{REGALO_FINAL.code}</p>
-                        </div>
-                        <p className="text-sm italic">{REGALO_FINAL.subtext}</p>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
-        );
+          <div class="flex-1 w-full">
+            <div class="relative bg-white border-4 border-black rounded-2xl p-4 shadow-[10px_10px_0_#111]">
+              <img src="https://i.imgur.com/7v7Ztxx.png" alt="Hello Kitty meme" class="w-full rounded-lg border-2 border-black" />
+              <p class="text-center text-xs font-bold mt-3 uppercase">Imagen meramente ilustrativa de la elegancia del regalo</p>
+              <div class="absolute -top-4 -left-4 bg-yellow-300 border-4 border-black px-3 py-1 rounded-xl font-black text-sm rotate-[-4deg] shadow-[6px_6px_0_#111]">
+                Oferta limitada
+              </div>
+              <div class="absolute -bottom-4 -right-4 bg-[var(--hotpink)] text-white border-4 border-black px-4 py-2 rounded-xl font-black rotate-[5deg] shadow-[6px_6px_0_#111]">
+                99% Real no fake
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <article class="bg-white border-4 border-black rounded-2xl p-4 shadow-[10px_10px_0_#111] flex items-center gap-4">
+          <div class="bg-black text-[var(--yellow)] px-3 py-2 rounded-lg font-black text-xs uppercase">Anuncio</div>
+          <div>
+            <p class="font-black text-lg">Clic aquí para ganar un celular rosita (no es scam, quizá).</p>
+            <button class="mt-2 px-4 py-2 bg-[var(--pink)] text-white border-2 border-black rounded-lg font-bold shadow-[4px_4px_0_#111]">Descargar APK misteriosa</button>
+          </div>
+        </article>
+        <article class="bg-white border-4 border-black rounded-2xl p-4 shadow-[10px_10px_0_#111] flex items-center gap-4">
+          <div class="bg-[var(--pink)] text-white px-3 py-2 rounded-lg font-black text-xs uppercase">Bonus</div>
+          <div>
+            <p class="font-black text-lg">Regalos cerca de ti esperando ser clickeados. Ahora mismo.</p>
+            <button class="mt-2 px-4 py-2 bg-black text-[var(--yellow)] border-2 border-black rounded-lg font-bold shadow-[4px_4px_0_#111]">Ver ubicaciones</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-10 bg-white border-4 border-black rounded-2xl p-5 shadow-[12px_12px_0_#111]">
+        <h2 class="text-2xl font-black text-center mb-4">Modo troll</h2>
+        <p class="text-center font-semibold text-sm text-gray-800 mb-6">Cada vez que toques el botón, aparecerá otro nivel de anuncio-broma. Ajusta el número de niveles con el deslizador. Cuando se acaben, sale el regalo de verdad con un video sorpresa.</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs font-bold uppercase">
+          <div class="bg-[var(--yellow)] border-2 border-black rounded-lg py-3 shadow-[4px_4px_0_#111]">Pop-up sospechoso</div>
+          <div class="bg-[var(--pink)] text-white border-2 border-black rounded-lg py-3 shadow-[4px_4px_0_#111]">Haz clic aquí pls</div>
+          <div class="bg-black text-[var(--yellow)] border-2 border-black rounded-lg py-3 shadow-[4px_4px_0_#111]">Regalos cerca de ti</div>
+          <div class="bg-white border-2 border-black rounded-lg py-3 shadow-[4px_4px_0_#111]">5000% real</div>
+        </div>
+      </section>
+    </main>
+
+    <div id="modal" class="fixed inset-0 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4 z-50">
+      <div class="relative w-full max-w-md bg-white border-4 border-black rounded-3xl shadow-[14px_14px_0_#111] overflow-hidden">
+        <div id="modalBanner" class="h-2 w-full bg-gradient-to-r from-[var(--hotpink)] via-yellow-300 to-[var(--pink)]"></div>
+        <div class="p-5 space-y-4">
+          <div class="flex items-start gap-3">
+            <div class="h-10 w-10 rounded-full bg-[var(--pink)] border-2 border-black flex items-center justify-center text-white font-black text-xl wiggle">★</div>
+            <div class="flex-1">
+              <p id="modalTag" class="text-xs font-black uppercase text-[var(--hotpink)]">Anuncio urgente</p>
+              <h3 id="modalTitle" class="text-2xl font-black leading-tight">Haz clic ahora mismo</h3>
+              <p id="modalText" class="font-semibold text-sm text-gray-800 mt-1">Instala este regalo ilimitado para desbloquear más regalos ilimitados.</p>
+            </div>
+            <button id="closeModal" class="text-black font-black border-2 border-black px-2 rounded-lg hover:bg-black hover:text-white">X</button>
+          </div>
+
+          <div id="modalMedia" class="border-2 border-black rounded-2xl overflow-hidden bg-gray-100"></div>
+
+          <button id="modalAction" class="w-full bg-[var(--hotpink)] text-white font-black px-4 py-3 rounded-xl border-4 border-black shadow-[8px_8px_0_#111] text-lg active:translate-y-1 active:shadow-none">
+            Seguir dando clic
+          </button>
+          <p id="progressText" class="text-center text-xs font-bold text-gray-700 uppercase">Paso 1 de 4</p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="w-full text-center text-xs font-bold py-4 bg-black text-[var(--yellow)] uppercase tracking-widest border-t-4 border-[var(--hotpink)] mt-auto">
+      1999 - 2024 | Web 100% legit | Hola mamá si ves esto
+    </footer>
+
+    <script>
+      const baitTemplates = [
+        {
+          title: "Gana un celular rosita",
+          text: "Solo tienes que descargar 7 APKs misteriosas. No es broma (o sí).",
+          media: '<div class="bg-black text-[var(--yellow)] text-center font-black py-10 text-xl">Publicidad premium</div>',
+          tag: "Oferta local",
+          button: "Descargar ahora",
+        },
+        {
+          title: "Mujeres solteras cerca de ti",
+          text: "También quieren el meme. Haz clic para mostrar tu interés (o huir).",
+          media: '<img src="https://media.giphy.com/media/3oEduSbSGpGaRX2Vri/giphy.gif" class="w-full h-52 object-cover" alt="Gif" />',
+          tag: "Match instantáneo",
+          button: "Conocer ahora",
+        },
+        {
+          title: "El antivirus gratis de tu tío",
+          text: "Promete protegerte de todo excepto de esta broma. Instálalo igual.",
+          media: '<div class="bg-[var(--yellow)] text-center font-black py-12 text-xl">Protección 9000</div>',
+          tag: "Seguridad máxima",
+          button: "Instalar.exe",
+        },
+        {
+          title: "1 regalo queda en tu zona",
+          text: "Los expertos dicen que debes clickear YA mismo para no perderlo.",
+          media: '<img src="https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif" class="w-full h-52 object-cover" alt="Gif" />',
+          tag: "Urgente",
+          button: "Lo quiero",
+        },
+        {
+          title: "Regalo rosa certificado",
+          text: "Hello Kitty aprueba este mensaje. Probablemente.",
+          media: '<div class="bg-white text-center font-black py-12 text-xl text-[var(--hotpink)]">Calidad 100%</div>',
+          tag: "Estándar internacional",
+          button: "Sellar garantía",
+        },
+      ];
+
+      const finalGift = {
+        title: "Ahora sí, regalo real",
+        text: "Escanea el QR o abre el enlace. Prometido, aquí sí hay video chistoso.",
+        qr: "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       };
 
-      ReactDOM.createRoot(document.getElementById("root")).render(<PrankWeb />);
+      const slider = document.getElementById("stepSlider");
+      const stepCount = document.getElementById("stepCount");
+      const startButton = document.getElementById("startButton");
+      const modal = document.getElementById("modal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalText = document.getElementById("modalText");
+      const modalAction = document.getElementById("modalAction");
+      const modalMedia = document.getElementById("modalMedia");
+      const progressText = document.getElementById("progressText");
+      const modalTag = document.getElementById("modalTag");
+      const closeModal = document.getElementById("closeModal");
+      const modalBanner = document.getElementById("modalBanner");
+
+      let totalSteps = parseInt(slider.value, 10);
+      let currentStep = 0;
+
+      slider.addEventListener("input", () => {
+        totalSteps = parseInt(slider.value, 10);
+        stepCount.textContent = totalSteps;
+        if (!modal.classList.contains("hidden")) {
+          updateModal();
+        }
+      });
+
+      startButton.addEventListener("click", () => {
+        currentStep = 0;
+        updateModal();
+        modal.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
+      });
+
+      closeModal.addEventListener("click", () => {
+        modal.classList.add("hidden");
+        document.body.classList.remove("overflow-hidden");
+      });
+
+      modalAction.addEventListener("click", () => {
+        if (currentStep >= totalSteps) {
+          closeModal.click();
+          return;
+        }
+        currentStep += 1;
+        updateModal();
+      });
+
+      function pickBait(step) {
+        const idx = step % baitTemplates.length;
+        return baitTemplates[idx];
+      }
+
+      function updateModal() {
+        if (currentStep >= totalSteps) {
+          modalTitle.textContent = finalGift.title;
+          modalText.textContent = finalGift.text;
+          modalMedia.innerHTML = `
+            <div class="p-4 flex flex-col items-center gap-3">
+              <img src="${finalGift.qr}" alt="QR sorpresa" class="border-2 border-black rounded-xl" />
+              <a href="${finalGift.link}" target="_blank" class="text-[var(--hotpink)] font-black underline">Abrir video directamente</a>
+            </div>`;
+          modalAction.textContent = "Cerrar y compartir";
+          modalTag.textContent = "Regalo final";
+          progressText.textContent = "FIN DEL TROLLEO";
+          modalBanner.className = "h-2 w-full bg-gradient-to-r from-yellow-300 via-[var(--hotpink)] to-black";
+          return;
+        }
+
+        const bait = pickBait(currentStep);
+        modalTitle.textContent = bait.title;
+        modalText.textContent = bait.text;
+        modalMedia.innerHTML = bait.media;
+        modalAction.textContent = bait.button;
+        modalTag.textContent = bait.tag;
+        progressText.textContent = `Paso ${currentStep + 1} de ${totalSteps}`;
+        modalBanner.className = "h-2 w-full bg-gradient-to-r from-[var(--hotpink)] via-[var(--pink)] to-yellow-300";
+      }
     </script>
   </body>
 </html>
