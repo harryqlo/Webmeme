@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ codex/create-meme-themed-clickbait-website
     <title>Regalo 100% Real - No Fake</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -65,10 +66,291 @@
         }
         100% {
           transform: rotate(-1deg) translateY(0);
+=======
+    <title>Webmeme | Broma retro que sí carga</title>
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg-1: #140924;
+        --bg-2: #280f45;
+        --accent: #ff66c4;
+        --accent-2: #6cf1ff;
+        --ink: #f5f4f8;
+        --glass: rgba(255, 255, 255, 0.1);
+        --border: rgba(255, 255, 255, 0.25);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+        background: radial-gradient(circle at 30% 20%, #2c0f52 0, transparent 25%),
+          radial-gradient(circle at 80% 0%, #320c4d 0, transparent 30%),
+          linear-gradient(135deg, var(--bg-1), var(--bg-2));
+        color: var(--ink);
+        display: flex;
+        justify-content: center;
+        padding: 32px 18px 48px;
+      }
+
+      .page {
+        width: min(1100px, 100%);
+        display: grid;
+        gap: 22px;
+      }
+
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px;
+        justify-content: space-between;
+        padding: 18px 20px;
+        border: 1px solid var(--border);
+        background: linear-gradient(120deg, rgba(255, 102, 196, 0.15), rgba(108, 241, 255, 0.08));
+        border-radius: 16px;
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(8px);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand .logo {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #ff66c4, #6cf1ff);
+        display: grid;
+        place-items: center;
+        font-size: 20px;
+        font-weight: 800;
+        color: #0c011b;
+        box-shadow: 0 10px 30px rgba(255, 102, 196, 0.35);
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-size: 26px;
+        letter-spacing: -0.5px;
+      }
+
+      .brand p {
+        margin: 0;
+        color: #dcd6f3;
+        opacity: 0.9;
+      }
+
+      .chip {
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        color: #fefbff;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.08);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 18px;
+      }
+
+      @media (max-width: 960px) {
+        main {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .card h2 {
+        margin: 0 0 10px;
+        font-size: 22px;
+      }
+
+      .card p {
+        margin: 0 0 14px;
+        color: #e2def7;
+        line-height: 1.6;
+      }
+
+      .meme-stage {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        background: #0b0714;
+        border: 1px solid var(--border);
+        min-height: 360px;
+        display: grid;
+        place-items: center;
+        isolation: isolate;
+      }
+
+      .meme-stage img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .meme-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(12, 1, 27, 0.75));
+      }
+
+      .meme-caption {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        align-content: flex-end;
+        padding: 22px;
+        gap: 10px;
+        z-index: 2;
+      }
+
+      .meme-caption h3 {
+        margin: 0;
+        font-size: 24px;
+        text-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+      }
+
+      .meme-caption p {
+        margin: 0;
+        color: #f7f1ff;
+        opacity: 0.92;
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      button {
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--ink);
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        cursor: pointer;
+        transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .primary {
+        background: linear-gradient(135deg, #ff66c4, #6cf1ff);
+        color: #0c011b;
+      }
+
+      .danger {
+        background: rgba(255, 102, 102, 0.16);
+        border-color: rgba(255, 102, 102, 0.5);
+      }
+
+      .list {
+        display: grid;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .list-item {
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px dashed var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .tag {
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--border);
+      }
+
+      footer {
+        text-align: center;
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      .toast {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: rgba(12, 1, 27, 0.9);
+        border: 1px solid var(--border);
+        color: var(--ink);
+        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.3);
+        min-width: 240px;
+        display: none;
+      }
+
+      .toast.show {
+        display: block;
+        animation: pop 240ms ease;
+      }
+
+      @keyframes pop {
+        0% {
+          transform: translateY(18px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+ main
         }
       }
     </style>
   </head>
+codex/create-meme-themed-clickbait-website
   <body class="text-black min-h-screen flex flex-col items-center">
     <header class="w-full bg-black text-white text-center py-3 shadow-lg uppercase text-xs tracking-[0.2em]">
       100% Regalo Real | No virus | No timos (creo)
@@ -300,6 +582,174 @@
         progressText.textContent = `Paso ${currentStep + 1} de ${totalSteps}`;
         modalBanner.className = "h-2 w-full bg-gradient-to-r from-[var(--hotpink)] via-[var(--pink)] to-yellow-300";
       }
+
+  <body>
+    <div class="page">
+      <header>
+        <div class="brand">
+          <div class="logo">WM</div>
+          <div>
+            <h1>Webmeme</h1>
+            <p>El sitio troll que sí carga — comparte memes sin romper PCs.</p>
+          </div>
+        </div>
+        <span class="chip">⚡ Versión ligera sin React</span>
+      </header>
+
+      <main>
+        <section class="card">
+          <h2>Memes listos para trolear</h2>
+          <p>
+            Presiona el botón aleatorio y comparte una joya de internet. Nada de descargas turbias; todo ocurre en el navegador.
+          </p>
+
+          <div class="meme-stage" id="meme-stage">
+            <div class="meme-overlay"></div>
+            <img id="meme-image" alt="Meme" src="https://i.imgflip.com/65wctj.jpg" />
+            <div class="meme-caption">
+              <h3 id="meme-title">Loading… pero en plan épico</h3>
+              <p id="meme-text">Dale al botón de abajo para revelar la travesura.</p>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="primary" id="random-btn">🎲 Tirar meme</button>
+            <button id="copy-btn">📋 Copiar texto</button>
+            <button id="download-btn">⬇️ Abrir imagen</button>
+            <button class="danger" id="panic-btn">🚨 Botón rojo</button>
+          </div>
+        </section>
+
+        <aside class="card">
+          <h2>Manual de uso exprés</h2>
+          <div class="list">
+            <div class="list-item">
+              <span>1. Pica el dado y espera magia cómica.</span>
+              <span class="tag">Random</span>
+            </div>
+            <div class="list-item">
+              <span>2. Copia la frase y pega en tu chat favorito.</span>
+              <span class="tag">Copiar</span>
+            </div>
+            <div class="list-item">
+              <span>3. Si quieres la imagen, ábrela en otra pestaña.</span>
+              <span class="tag">Seguro</span>
+            </div>
+            <div class="list-item">
+              <span>4. El botón rojo solo vibra. No formateará nada.</span>
+              <span class="tag">Broma</span>
+            </div>
+          </div>
+
+          <p style="margin-top: 14px; color: #c9c4e8;">
+            Webmeme nació como broma, pero ahora es un museo de momentos virales. No hay instaladores raros, solo nostalgia y caos controlado.
+          </p>
+        </aside>
+      </main>
+
+      <footer>© 2024 Webmeme — Humor vintage con medidas de seguridad modernas.</footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      const memes = [
+        {
+          title: "Pero fuiste troleado",
+          text: "Cuando esperabas un .exe y solo llegó un chiste.",
+          image: "https://i.imgflip.com/7xg4v8.jpg",
+        },
+        {
+          title: "Ese no era el link",
+          text: "Descarga cancelada, risas activadas.",
+          image: "https://i.imgflip.com/65wctj.jpg",
+        },
+        {
+          title: "Momento técnico",
+          text: "La PC no explotó, pero tu dignidad quedó en cache.",
+          image: "https://i.imgflip.com/6lh5qj.jpg",
+        },
+        {
+          title: "Tutorial definitivo",
+          text: "Paso 1: Respira. Paso 2: Comparte el meme. Fin.",
+          image: "https://i.imgflip.com/5sylbk.jpg",
+        },
+        {
+          title: "Modo nostalgia",
+          text: "Cuando el internet sonaba como modem pero igual reías.",
+          image: "https://i.imgflip.com/1bij.jpg",
+        },
+        {
+          title: "Error 404: miedo no encontrado",
+          text: "Todo seguro, solo estás en un museo de memes.",
+          image: "https://i.imgflip.com/46rh17.jpg",
+        },
+      ];
+
+      const stage = document.getElementById("meme-stage");
+      const img = document.getElementById("meme-image");
+      const title = document.getElementById("meme-title");
+      const text = document.getElementById("meme-text");
+      const toast = document.getElementById("toast");
+      const randomBtn = document.getElementById("random-btn");
+      const copyBtn = document.getElementById("copy-btn");
+      const downloadBtn = document.getElementById("download-btn");
+      const panicBtn = document.getElementById("panic-btn");
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2200);
+      }
+
+      function randomMeme() {
+        const pick = memes[Math.floor(Math.random() * memes.length)];
+        img.src = pick.image;
+        title.textContent = pick.title;
+        text.textContent = pick.text;
+        stage.animate(
+          [
+            { transform: "scale(0.97)", opacity: 0.85 },
+            { transform: "scale(1)", opacity: 1 },
+          ],
+          { duration: 240, easing: "ease-out" }
+        );
+        showToast("Nuevo meme cargado 🚀");
+      }
+
+      function copyText() {
+        const payload = `${title.textContent} — ${text.textContent}`;
+        navigator.clipboard
+          .writeText(payload)
+          .then(() => showToast("Texto copiado. Listo para pegar."))
+          .catch(() => showToast("Ups, tu navegador bloqueó el copiado."));
+      }
+
+      function openImage() {
+        window.open(img.src, "_blank", "noopener");
+        showToast("La imagen se abre en otra pestaña segura.");
+      }
+
+      function panic() {
+        panicBtn.disabled = true;
+        showToast("Modo pánico activado… es broma 🔥");
+        stage.animate(
+          [
+            { transform: "rotate(-1deg) scale(1.01)" },
+            { transform: "rotate(1deg) scale(1.02)" },
+            { transform: "rotate(0deg) scale(1)" },
+          ],
+          { duration: 420, iterations: 4 }
+        ).onfinish = () => (panicBtn.disabled = false);
+      }
+
+      randomBtn.addEventListener("click", randomMeme);
+      copyBtn.addEventListener("click", copyText);
+      downloadBtn.addEventListener("click", openImage);
+      panicBtn.addEventListener("click", panic);
+
+      randomMeme();
+ main
     </script>
   </body>
 </html>
