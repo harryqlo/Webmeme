@@ -1,241 +1,551 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Regalo Sorpresa</title>
-    
-    <!-- Estilos (Tailwind) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Animaciones CSS -->
-    <style>
-        body { touch-action: manipulation; overscroll-behavior: none; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
-        @keyframes fadeOut { 0% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -150%) scale(0.5); } }
-        @keyframes typing { from { width: 0 } to { width: 100% } }
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { AlertTriangle, Gift, Download, X, Heart, Smartphone, Wifi, Battery, Siren, MousePointer, Skull, RefreshCw, Users, MessageCircle, ShieldAlert, Bell, Signal, HelpCircle } from 'lucide-react';
+
+// ==================================================================================
+//  ZONA DE CONFIGURACIÓN
+// ==================================================================================
+
+const LISTA_DE_BROMAS = [
+  {
+    type: 'alert',
+    title: '⚠️ ERROR DE SISTEMA ⚠️',
+    message: 'TU DISPOSITIVO TIENE EXCESO DE FLOW. POR FAVOR REINICIA EL CEREBRO.',
+    buttonText: 'Aceptar y llorar'
+  },
+  {
+    type: 'image',
+    title: 'TE LO CREÍSTE XD',
+    url: 'https://media1.tenor.com/m/x8v1o5Q8iJIAAAAd/rickroll-roll.gif', 
+    text: '¿En serio pensaste que sería tan fácil?',
+    buttonText: 'Bueno ya, dame mi regalo'
+  },
+  {
+    type: 'image',
+    title: 'MIRA ESTO ATENTAMENTE',
+    url: 'https://i.ibb.co/67qgMynM/QVZj-VFNh-S0-Zt-OEp-GZEZ4-QQ.jpg', 
+    text: 'JAJAJAJAJA CAÍSTE OTRA VEZ',
+    buttonText: 'BASTA YA'
+  },
+  {
+    type: 'alert',
+    title: 'VIRUS DETECTADO: TROYANO.KITTY.EXE',
+    message: 'Se ha detectado un archivo "regalo_falso.zip". ¿Desea formatear la vida de su padrino/madrina?',
+    buttonText: 'NOOO, CANCELAR'
+  },
+  {
+    type: 'video',
+    title: 'TUTORIAL PARA DESCARGAR REGALO',
+    videoId: '-o849SEUQiQ', // Cumbia del Troleo
+    text: 'Sigue los pasos atentamente...',
+    buttonText: 'Ya vi suficiente, dame el regalo real'
+  },
+  {
+    type: 'image',
+    title: 'ESTE SÍ ES EL BUENO',
+    url: 'https://media.tenor.com/2XyC6uQ3eRsAAAAM/cat-huh.gif', // Gato confundido
+    text: 'Hacer click aquí para descargar RAM gratis.',
+    buttonText: 'YA BASTA POR FAVOR'
+  }
+];
+
+const REGALO_FINAL = {
+  title: '✨ ¡FELICIDADES! ✨',
+  message: 'Ya, ahora sí es en serio. Te quiero mucho ahijada.',
+  subtext: 'Aquí está tu regalo real (o tal vez no... na mentira si es).',
+  code: 'VALE POR UNA SALIDA A COMER O LO QUE TU QUIERAS' 
+};
+
+// --- ANUNCIOS ---
+const REGULAR_ADS = [
+  { id: 'gatitas', title: "¿GATITAS SOLAS CERCA DE TI?", text: "Chatea ahora gratis", color: "bg-pink-300", icon: Heart, link: "https://www.youtube.com/watch?v=2yJgwwDcgV8" },
+  { id: 'iphone_trap', title: "GANASTE UN IPHONE 25", text: "Reclamar antes de que explote", color: "bg-yellow-200", icon: Smartphone, link: "https://www.youtube.com/watch?v=-o849SEUQiQ", isTrap: true },
+  { id: 'ventilador', title: "ALERT: TU CELULAR TIENE CALOR", text: "Descargar ventilador app", color: "bg-blue-300", icon: Siren, link: "https://www.youtube.com/watch?v=1msm0-rXlo4" }
+];
+
+const CHAOS_ADS = [
+  { id: 'dinero_payaso', title: "DINERO GRATIS", text: "Click rapido", color: "bg-green-300", icon: Download, link: "https://i.pinimg.com/736x/ce/e8/f8/cee8f88d931ae2cbd4161e389f2792b2.jpg" },
+  { id: 'visitante_trombone', title: "ERES EL VISITANTE 1.000.000", text: "Reclamar premio", color: "bg-purple-300", icon: Gift, link: "https://www.youtube.com/watch?v=CQeezCdF4mk" },
+  { id: 'boton_triste', title: "CLICKEA AQUÍ POR FAVOR", text: "Soy un botón triste", color: "bg-orange-300", icon: MousePointer, link: "https://www.youtube.com/watch?v=jXn35h6cv88" }
+];
+
+const ALL_ADS_DATA = [...REGULAR_ADS, ...CHAOS_ADS].reduce((acc, ad) => {
+  acc[ad.id] = ad;
+  return acc;
+}, {});
+
+const FAKE_NOTIFICATIONS = [
+    { title: "Antivirus Expirado", msg: "Tu protección acabó en 1999.", icon: ShieldAlert, color: "bg-red-100 border-red-500" },
+    { title: "Mensaje Nuevo", msg: "Mamá: ¿Por qué descargaste eso?", icon: MessageCircle, color: "bg-green-100 border-green-500" },
+    { title: "Sistema", msg: "Borrando System32...", icon: Skull, color: "bg-gray-100 border-black" },
+    { title: "¡Ganaste!", msg: "Has sido seleccionado para viajar a Marte.", icon: Gift, color: "bg-yellow-100 border-yellow-500" },
+    { title: "FBI", msg: "Sabemos lo que hiciste.", icon: Siren, color: "bg-blue-100 border-blue-800" },
+    { title: "Batería", msg: "Tu batería está al 400%", icon: Battery, color: "bg-pink-100 border-pink-500" }
+];
+
+// --- FRASES DEL ASISTENTE MOLESTO ---
+const CLIPPY_PHRASES = [
+    "¿Necesitas ayuda?", 
+    "Parece que quieres un regalo...", 
+    "Borrando fotos...", 
+    "¡Cuidado atrás!", 
+    "Jejejejeje", 
+    "¿Me das tu tarjeta de crédito?",
+    "No toques eso",
+    "Soy una gatita hacker"
+];
+
+// ==================================================================================
+//  COMPONENTES AUXILIARES
+// ==================================================================================
+
+// 1. ASISTENTE FLOTANTE (CLIPPY)
+const AnnoyingHelper = ({ visible }) => {
+    const [text, setText] = useState("Hola 👋");
+    const [pos, setPos] = useState({ x: 20, y: 100 });
+
+    useEffect(() => {
+        if (!visible) return;
+        const interval = setInterval(() => {
+            setText(CLIPPY_PHRASES[Math.floor(Math.random() * CLIPPY_PHRASES.length)]);
+            // Movimiento aleatorio suave dentro de la ventana
+            setPos({
+                x: Math.max(10, Math.min(window.innerWidth - 150, Math.random() * (window.innerWidth - 100))),
+                y: Math.max(50, Math.min(window.innerHeight - 200, Math.random() * (window.innerHeight - 100)))
+            });
+        }, 4000);
+        return () => clearInterval(interval);
+    }, [visible]);
+
+    if (!visible) return null;
+
+    return (
+        <div 
+            className="fixed z-50 flex flex-col items-center transition-all duration-1000 ease-in-out pointer-events-none"
+            style={{ left: pos.x, top: pos.y }}
+        >
+            <div className="bg-yellow-100 border-2 border-black p-2 rounded-lg mb-2 text-xs font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] max-w-[120px] text-center typing-effect">
+                {text}
+            </div>
+            <div className="text-4xl animate-bounce">🐱</div>
+        </div>
+    );
+};
+
+// 2. ESTELA DEL MOUSE / DEDO
+const CursorTrail = () => {
+    const [trail, setTrail] = useState([]);
+
+    const handleMove = useCallback((e) => {
+        const { clientX, clientY } = e.touches ? e.touches[0] : e;
+        const id = Date.now();
+        const emoji = Math.random() > 0.5 ? '💖' : '💀';
+        
+        setTrail(prev => [...prev, { x: clientX, y: clientY, id, emoji }].slice(-15)); // Max 15 elementos
+
+        setTimeout(() => {
+            setTrail(prev => prev.filter(t => t.id !== id));
+        }, 800);
+    }, []);
+
+    useEffect(() => {
+        window.addEventListener('mousemove', handleMove);
+        window.addEventListener('touchmove', handleMove);
+        return () => {
+            window.removeEventListener('mousemove', handleMove);
+            window.removeEventListener('touchmove', handleMove);
+        };
+    }, [handleMove]);
+
+    return (
+        <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+            {trail.map(t => (
+                <div 
+                    key={t.id} 
+                    className="absolute text-xl animate-fade-out"
+                    style={{ left: t.x, top: t.y, transform: 'translate(-50%, -50%)' }}
+                >
+                    {t.emoji}
+                </div>
+            ))}
+        </div>
+    );
+};
+
+// ==================================================================================
+//  APP PRINCIPAL
+// ==================================================================================
+
+export default function PrankWeb() {
+  const [showModal, setShowModal] = useState(false);
+  const [currentBait, setCurrentBait] = useState(null);
+  const [baitIndex, setBaitIndex] = useState(0);
+  const [isFinished, setIsFinished] = useState(false);
+  const [chaosMode, setChaosMode] = useState(false);
+  const [adOrder, setAdOrder] = useState(REGULAR_ADS.map(ad => ad.id));
+  
+  const [progress, setProgress] = useState(0);
+  const [downloadCount, setDownloadCount] = useState(14502);
+  const [btnText, setBtnText] = useState('DESCARGAR AQUÍ');
+  const [blink, setBlink] = useState(true);
+  const [glitch, setGlitch] = useState(false); // Nuevo estado Glitch
+  const [toasts, setToasts] = useState([]);
+
+  useEffect(() => {
+    const interval = setInterval(() => setBlink(b => !b), 500);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Efecto Glitch Aleatorio
+  useEffect(() => {
+      const glitchInterval = setInterval(() => {
+          if (Math.random() > 0.9) { // 10% probabilidad cada 2 segundos
+              setGlitch(true);
+              setTimeout(() => setGlitch(false), 200); // Dura 200ms
+          }
+      }, 2000);
+      return () => clearInterval(glitchInterval);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress(old => {
+        if (old >= 99) return 99; 
+        if (old > 80 && Math.random() > 0.8) return old - 15;
+        if (Math.random() > 0.6) return old + Math.random() * 5;
+        return old;
+      });
+      setDownloadCount(c => c + Math.floor(Math.random() * 10));
+    }, 200);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (isFinished) return;
+    const spawnRate = chaosMode ? 2000 : 5000;
+    const spawner = setInterval(() => {
+        if (Math.random() > 0.3) {
+            const randomNotif = FAKE_NOTIFICATIONS[Math.floor(Math.random() * FAKE_NOTIFICATIONS.length)];
+            const newToast = { ...randomNotif, id: Date.now() + Math.random() };
+            setToasts(prev => {
+                const updated = [...prev, newToast];
+                if (updated.length > 3) return updated.slice(1);
+                return updated;
+            });
+        }
+    }, spawnRate);
+    return () => clearInterval(spawner);
+  }, [chaosMode, isFinished]);
+
+  const funnyBtnTexts = ["¿ESTÁS SEGURA?", "VIRUS.EXE...", "NO TOQUES", "ESPERA...", "PROCESANDO...", "ERROR 404", "¿SÍ?"];
+
+  const handleBtnHover = () => {
+    if (!isFinished) {
+      setBtnText(funnyBtnTexts[Math.floor(Math.random() * funnyBtnTexts.length)]);
+    }
+  };
+
+  const shuffleAds = useCallback(() => {
+    setAdOrder(prevOrder => {
+      const newOrder = [...prevOrder];
+      for (let i = newOrder.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newOrder[i], newOrder[j]] = [newOrder[j], newOrder[i]];
+      }
+      return newOrder;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (chaosMode) {
+      setAdOrder(prevOrder => {
+        const chaosIds = CHAOS_ADS.map(ad => ad.id);
+        const newIds = chaosIds.filter(id => !prevOrder.includes(id));
+        const combinedOrder = [...prevOrder, ...newIds];
+        for (let i = combinedOrder.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [combinedOrder[i], combinedOrder[j]] = [combinedOrder[j], combinedOrder[i]];
+        }
+        return combinedOrder;
+      });
+    }
+  }, [chaosMode]);
+
+  const handleDownloadClick = () => {
+    if (isFinished) return;
+    if (baitIndex < LISTA_DE_BROMAS.length) {
+      setCurrentBait(LISTA_DE_BROMAS[baitIndex]);
+      setShowModal(true);
+    } else {
+      setIsFinished(true);
+      setShowModal(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    if (!isFinished) {
+      setBaitIndex(prev => prev + 1);
+      if (Math.random() > 0.7) setChaosMode(true);
+    }
+  };
+
+  const removeToast = (id) => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+      if (chaosMode && Math.random() > 0.5) {
+          setTimeout(() => {
+              const randomNotif = FAKE_NOTIFICATIONS[Math.floor(Math.random() * FAKE_NOTIFICATIONS.length)];
+              setToasts(prev => [...prev, { ...randomNotif, id: Date.now() + Math.random() }]);
+          }, 200);
+      }
+  };
+
+  const FakeAd = ({ id, title, text, color, icon: Icon, link, isTrap, onAdClick }) => (
+    <div 
+      className={`border-4 border-black p-2 my-2 ${color} font-bold text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transform active:scale-95 transition-transform duration-100 cursor-pointer relative overflow-hidden`}
+      onClick={() => {
+        if (isTrap) setChaosMode(true);
+        onAdClick();
+        if (link) window.open(link, '_blank');
+        else alert("¡HICISTE CLICK EN UN VIRUS! (Broma)");
+      }}
+    >
+      <div className="absolute top-0 right-0 bg-white text-[10px] px-1 border-l-2 border-b-2 border-black font-mono">AD</div>
+      <div className="flex justify-between items-center border-b-2 border-black mb-1 pb-1">
+        <span className="text-xs blink-text text-red-600">¡OFERTA!</span>
+        <X size={16} />
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        {Icon && <Icon size={32} className={chaosMode && isTrap ? "animate-pulse text-red-600" : "animate-bounce"} />}
+        <h3 className="text-lg leading-tight uppercase">{title}</h3>
+        <p className="text-xs bg-yellow-300 text-black px-1">{text}</p>
+        <button className="bg-blue-600 text-white text-xs px-2 py-1 mt-1 underline">CLICK AQUÍ</button>
+      </div>
+    </div>
+  );
+
+  const renderAdById = (id) => {
+    const adData = ALL_ADS_DATA[id];
+    if (!adData) return null;
+    let finalTitle = adData.title;
+    let finalIcon = adData.icon;
+    if (chaosMode && adData.isTrap) {
+        finalTitle = "¡¡TU CELULAR VA A EXPLOTAR!!";
+        finalIcon = Skull;
+    }
+    return (
+      <FakeAd
+        key={id}
+        {...adData}
+        title={finalTitle}
+        icon={finalIcon}
+        onAdClick={shuffleAds}
+      />
+    );
+  };
+
+  return (
+    <div className={`min-h-screen ${chaosMode ? 'bg-[#ff00ff]' : 'bg-[#ff69b4]'} text-black font-sans overflow-x-hidden flex flex-col items-center transition-colors duration-500 pb-20 ${glitch ? 'invert scale-105' : ''}`}>
+      
+      {/* COMPONENTES FLOTANTES */}
+      <CursorTrail />
+      <AnnoyingHelper visible={true} />
+
+      {/* HEADER FALSO TIPO CELULAR ANTIGUO */}
+      <div className="w-full bg-black text-white p-2 flex justify-between items-center font-mono text-xs shadow-lg z-20">
+        <div className="flex gap-2">
+          <Wifi size={14} className={chaosMode ? "text-red-500 animate-pulse" : ""} />
+          <span>{chaosMode ? "HACKED..." : "No Service"}</span>
+        </div>
+        <span className="animate-pulse text-red-500 font-bold">{chaosMode ? "0%" : "1%"} BATERÍA</span>
+        <Battery size={14} className={chaosMode ? "text-red-500" : ""} />
+      </div>
+
+      <div className="w-full max-w-md p-2 flex flex-col gap-4 z-10">
+
+        {/* HEADER DE LA PÁGINA */}
+        <header className={`bg-white border-4 border-black p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-center relative mt-2 ${chaosMode ? 'animate-shake' : ''}`}>
+            <div className="absolute -top-3 -right-3 bg-yellow-400 border-2 border-black p-1 transform rotate-12">
+            <span className="font-bold text-xs">¡100% REAL!</span>
+            </div>
+            <h1 className="text-4xl font-black text-[#ff1493] uppercase drop-shadow-md leading-none" style={{ fontFamily: 'Impact' }}>
+            {chaosMode ? "¡¡DESCARGAR YA!!" : "DESCARGAR REGALO"}
+            </h1>
+            <p className="text-sm font-bold mt-2">v.2.0.24 - NO VIRUS - HELLO KITTY EDITION</p>
+        </header>
+        
+        {/* LISTA DE ANUNCIOS Y CONTENIDO */}
+        {adOrder.map((id, index) => {
+            if (index === Math.floor(adOrder.length / 2)) {
+                return (
+                    <React.Fragment key="download-block">
+                        {/* ZONA DE DESCARGA PRINCIPAL */}
+                        <div className="bg-white border-4 border-black p-4 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden group z-10 transition-colors hover:bg-gray-50">
+                            
+                            <div className={`bg-red-600 text-white font-bold p-1 mb-2 ${blink ? 'opacity-100' : 'opacity-80'}`}>
+                              ⚠️ {chaosMode ? "¡¡ALERTA CRÍTICA!!" : "ATENCIÓN: TU REGALO ESTÁ LISTO"} ⚠️
+                            </div>
+
+                            <div className="w-full bg-gray-200 h-6 border-2 border-black mb-3 relative">
+                                <div 
+                                    className="h-full bg-green-500 transition-all duration-300"
+                                    style={{ width: `${progress}%` }}
+                                ></div>
+                                <span className="absolute inset-0 text-xs font-bold flex items-center justify-center">
+                                    CARGANDO... {Math.floor(progress)}%
+                                </span>
+                            </div>
+
+                            <p className="mb-4 font-bold text-lg leading-tight">
+                                {chaosMode ? "HAZ CLICK RÁPIDO O SE BORRA EL REGALO" : "Haz click abajo para reclamar premio."}
+                            </p>
+
+                            <button 
+                              onClick={handleDownloadClick}
+                              onMouseEnter={handleBtnHover}
+                              onMouseLeave={() => setBtnText(isFinished ? "DESCARGAR AHORA" : "DESCARGAR AQUÍ")}
+                              className={`w-full ${chaosMode ? 'bg-red-500 animate-bounce' : 'bg-[#00ff00]'} border-4 border-black text-black font-black text-xl py-4 px-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2`}
+                            >
+                              <Download size={28} className={blink ? "opacity-100" : "opacity-50"}/>
+                              <span>{isFinished ? 'DESCARGAR AHORA' : btnText}</span>
+                            </button>
+                            
+                            <div className="mt-3 flex items-center justify-center gap-1 text-[10px] font-mono text-gray-600">
+                                <Users size={12}/>
+                                <span>Usuarios en línea: {downloadCount.toLocaleString()}</span>
+                            </div>
+
+                            {chaosMode && <p className="text-red-600 font-bold text-xs mt-1 blink-text">TIEMPO RESTANTE: {Math.floor(Math.random()*10)}s...</p>}
+                        </div>
+                        {renderAdById(id)}
+                    </React.Fragment>
+                );
+            }
+            return renderAdById(id);
+        })}
+
+        <footer className="mt-4 text-center font-bold text-white text-xs p-4 bg-black border-4 border-white w-full">
+            © 1999-2024 SITIO 100% LEGÍTIMO NO FAKE 1 LINK MEGA
+        </footer>
+
+      </div>
+
+      {/* NOTIFICACIONES PUSH / TOASTS (Estilo Retro) */}
+      <div className="fixed bottom-0 right-0 p-2 flex flex-col gap-2 z-40 w-full max-w-sm pointer-events-none">
+          {toasts.map((toast) => (
+              <div 
+                  key={toast.id}
+                  className={`${toast.color} border-2 border-black p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex gap-3 items-start animate-in slide-in-from-bottom duration-300 pointer-events-auto bg-white`}
+              >
+                  <toast.icon className="w-6 h-6 shrink-0" />
+                  <div className="flex-1">
+                      <h4 className="font-bold text-sm uppercase leading-none mb-1">{toast.title}</h4>
+                      <p className="text-xs leading-tight">{toast.msg}</p>
+                  </div>
+                  <button onClick={() => removeToast(toast.id)} className="hover:bg-black/10 p-1 rounded border border-black bg-gray-200">
+                      <X size={14} />
+                  </button>
+              </div>
+          ))}
+      </div>
+
+      {/* MODAL / POPUP SYSTEM */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+          <div className="bg-white w-full max-w-sm border-4 border-black shadow-[10px_10px_0px_0px_#ff1493] animate-in zoom-in duration-200">
+            
+            <div className="bg-[#ff1493] text-white font-bold p-2 border-b-4 border-black flex justify-between items-center">
+              <span>{isFinished ? 'System32.exe' : currentBait?.title || 'ALERTA'}</span>
+              <button onClick={handleCloseModal} className="hover:bg-black/20 p-1 rounded"><X size={20}/></button>
+            </div>
+
+            <div className="p-4 flex flex-col items-center text-center">
+              
+              {!isFinished ? (
+                <>
+                  {currentBait?.type === 'alert' && (
+                    <AlertTriangle size={64} className="text-yellow-500 mb-4 animate-bounce" />
+                  )}
+                  
+                  {currentBait?.type === 'image' && currentBait.url && (
+                    <img src={currentBait.url} alt="Meme" className="w-full h-auto max-h-[250px] object-contain border-2 border-black mb-4 bg-gray-100" />
+                  )}
+
+                  {currentBait?.type === 'video' && currentBait.videoId && (
+                    <div className="w-full aspect-video mb-4 border-2 border-black bg-black">
+                         <iframe 
+                            width="100%" 
+                            height="100%" 
+                            src={`https://www.youtube.com/embed/${currentBait.videoId}?autoplay=1`} 
+                            title="YouTube video player" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowFullScreen
+                        ></iframe>
+                    </div>
+                  )}
+
+                  <h2 className="text-xl font-black mb-2 uppercase leading-tight">{currentBait?.title}</h2>
+                  <p className="font-bold mb-6 text-sm md:text-base">{currentBait?.message || currentBait?.text}</p>
+                  
+                  <button 
+                    onClick={handleCloseModal}
+                    className="w-full bg-gray-200 hover:bg-gray-300 border-2 border-black px-6 py-3 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none"
+                  >
+                    {currentBait?.buttonText || 'Cerrar'}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Gift size={80} className="text-[#ff1493] mb-4 animate-pulse" />
+                  <h2 className="text-2xl font-black mb-2 text-[#ff1493]">{REGALO_FINAL.title}</h2>
+                  <p className="font-bold text-lg mb-4">{REGALO_FINAL.message}</p>
+                  <div className="bg-yellow-200 p-4 border-2 border-black border-dashed w-full mb-4">
+                    <p className="font-mono text-sm mb-2 text-gray-600">TU CÓDIGO/REGALO:</p>
+                    <p className="text-2xl font-black">{REGALO_FINAL.code}</p>
+                  </div>
+                  <p className="text-sm italic">{REGALO_FINAL.subtext}</p>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ESTILOS GLOBALES DENTRO DEL COMPONENTE */}
+      <style>{`
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+        @keyframes shake {
+          0% { transform: translate(1px, 1px) rotate(0deg); }
+          10% { transform: translate(-1px, -2px) rotate(-1deg); }
+          20% { transform: translate(-3px, 0px) rotate(1deg); }
+          30% { transform: translate(3px, 2px) rotate(0deg); }
+          40% { transform: translate(1px, -1px) rotate(1deg); }
+          50% { transform: translate(-1px, 2px) rotate(-1deg); }
+          60% { transform: translate(-3px, 1px) rotate(0deg); }
+          70% { transform: translate(3px, 1px) rotate(-1deg); }
+          80% { transform: translate(-1px, -1px) rotate(1deg); }
+          90% { transform: translate(1px, 2px) rotate(0deg); }
+          100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -150%) scale(0.5); }
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
         .blink-text { animation: blink 0.5s infinite; }
         .animate-shake { animation: shake 0.5s infinite; }
         .animate-fade-out { animation: fadeOut 0.8s forwards; }
-        .typing-effect { overflow: hidden; white-space: nowrap; animation: typing 3.5s steps(40, end); }
-    </style>
-    
-    <!-- Librerías React para que funcione sin instalar nada -->
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@18.2.0",
-        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
-        "lucide-react": "https://esm.sh/lucide-react@0.263.1"
-      }
-    }
-    </script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head>
-<body class="bg-gray-100">
-    <div id="root"></div>
-
-    <script type="text/babel" data-type="module">
-        import React, { useState, useEffect, useCallback } from 'react';
-        import { createRoot } from 'react-dom/client';
-        import { AlertTriangle, Gift, Download, X, Heart, Smartphone, Wifi, Battery, Siren, MousePointer, Skull, Users, MessageCircle, ShieldAlert } from 'lucide-react';
-
-        // --- CONFIGURACIÓN ---
-        const LISTA_DE_BROMAS = [
-            { type: 'alert', title: '⚠️ ERROR DE SISTEMA ⚠️', message: 'TU DISPOSITIVO TIENE EXCESO DE FLOW. POR FAVOR REINICIA EL CEREBRO.', buttonText: 'Aceptar y llorar' },
-            { type: 'image', title: 'TE LO CREÍSTE XD', url: 'https://media1.tenor.com/m/x8v1o5Q8iJIAAAAd/rickroll-roll.gif', text: '¿En serio pensaste que sería tan fácil?', buttonText: 'Bueno ya, dame mi regalo' },
-            { type: 'image', title: 'MIRA ESTO ATENTAMENTE', url: 'https://i.ibb.co/67qgMynM/QVZj-VFNh-S0-Zt-OEp-GZEZ4-QQ.jpg', text: 'JAJAJAJAJA CAÍSTE OTRA VEZ', buttonText: 'BASTA YA' },
-            { type: 'alert', title: 'VIRUS DETECTADO: TROYANO.KITTY.EXE', message: 'Se ha detectado un archivo "regalo_falso.zip". ¿Desea formatear la vida de su padrino/madrina?', buttonText: 'NOOO, CANCELAR' },
-            { type: 'video', title: 'TUTORIAL PARA DESCARGAR REGALO', videoId: '-o849SEUQiQ', text: 'Sigue los pasos atentamente...', buttonText: 'Ya vi suficiente, dame el regalo real' },
-            { type: 'image', title: 'ESTE SÍ ES EL BUENO', url: 'https://media.tenor.com/2XyC6uQ3eRsAAAAM/cat-huh.gif', text: 'Hacer click aquí para descargar RAM gratis.', buttonText: 'YA BASTA POR FAVOR' }
-        ];
-
-        const REGALO_FINAL = {
-            title: '✨ ¡FELICIDADES! ✨',
-            message: 'Ya, ahora sí es en serio. Te quiero mucho ahijada.',
-            subtext: 'Aquí está tu regalo real (o tal vez no... na mentira si es).',
-            code: 'VALE POR UNA SALIDA A COMER O LO QUE TU QUIERAS' 
-        };
-
-        const REGULAR_ADS = [
-            { id: 'gatitas', title: "¿GATITAS SOLAS CERCA DE TI?", text: "Chatea ahora gratis", color: "bg-pink-300", icon: Heart, link: "https://www.youtube.com/watch?v=2yJgwwDcgV8" },
-            { id: 'iphone_trap', title: "GANASTE UN IPHONE 25", text: "Reclamar antes de que explote", color: "bg-yellow-200", icon: Smartphone, link: "https://www.youtube.com/watch?v=-o849SEUQiQ", isTrap: true },
-            { id: 'ventilador', title: "ALERT: TU CELULAR TIENE CALOR", text: "Descargar ventilador app", color: "bg-blue-300", icon: Siren, link: "https://www.youtube.com/watch?v=1msm0-rXlo4" }
-        ];
-
-        const CHAOS_ADS = [
-            { id: 'dinero_payaso', title: "DINERO GRATIS", text: "Click rapido", color: "bg-green-300", icon: Download, link: "https://i.pinimg.com/736x/ce/e8/f8/cee8f88d931ae2cbd4161e389f2792b2.jpg" },
-            { id: 'visitante_trombone', title: "ERES EL VISITANTE 1.000.000", text: "Reclamar premio", color: "bg-purple-300", icon: Gift, link: "https://www.youtube.com/watch?v=CQeezCdF4mk" },
-            { id: 'boton_triste', title: "CLICKEA AQUÍ POR FAVOR", text: "Soy un botón triste", color: "bg-orange-300", icon: MousePointer, link: "https://www.youtube.com/watch?v=jXn35h6cv88" }
-        ];
-
-        const FAKE_NOTIFICATIONS = [
-            { title: "Antivirus Expirado", msg: "Tu protección acabó en 1999.", icon: ShieldAlert, color: "bg-red-100 border-red-500" },
-            { title: "Mensaje Nuevo", msg: "Mamá: ¿Por qué descargaste eso?", icon: MessageCircle, color: "bg-green-100 border-green-500" },
-            { title: "Sistema", msg: "Borrando System32...", icon: Skull, color: "bg-gray-100 border-black" },
-            { title: "¡Ganaste!", msg: "Viaje a Marte confirmado.", icon: Gift, color: "bg-yellow-100 border-yellow-500" },
-            { title: "FBI", msg: "Sabemos lo que hiciste.", icon: Siren, color: "bg-blue-100 border-blue-800" },
-            { title: "Batería", msg: "Tu batería está al 400%", icon: Battery, color: "bg-pink-100 border-pink-500" }
-        ];
-
-        const CLIPPY_PHRASES = ["¿Necesitas ayuda?", "Parece que quieres un regalo...", "Borrando fotos...", "¡Cuidado atrás!", "Jejejejeje", "¿Tarjeta de crédito?", "No toques eso", "Soy una gatita hacker"];
-        const ALL_ADS_DATA = [...REGULAR_ADS, ...CHAOS_ADS].reduce((acc, ad) => { acc[ad.id] = ad; return acc; }, {});
-
-        // --- COMPONENTES ---
-
-        const AnnoyingHelper = ({ visible }) => {
-            const [text, setText] = useState("Hola 👋");
-            const [pos, setPos] = useState({ x: 20, y: 100 });
-            useEffect(() => {
-                if (!visible) return;
-                const interval = setInterval(() => {
-                    setText(CLIPPY_PHRASES[Math.floor(Math.random() * CLIPPY_PHRASES.length)]);
-                    setPos({ x: Math.random() * (window.innerWidth - 120), y: Math.random() * (window.innerHeight - 150) });
-                }, 4000);
-                return () => clearInterval(interval);
-            }, [visible]);
-            if (!visible) return null;
-            return (
-                <div className="fixed z-50 flex flex-col items-center transition-all duration-1000 ease-in-out pointer-events-none" style={{ left: pos.x, top: pos.y }}>
-                    <div className="bg-yellow-100 border-2 border-black p-2 rounded-lg mb-2 text-xs font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] max-w-[120px] text-center typing-effect">{text}</div>
-                    <div className="text-4xl animate-bounce">🐱</div>
-                </div>
-            );
-        };
-
-        const CursorTrail = () => {
-            const [trail, setTrail] = useState([]);
-            const handleMove = useCallback((e) => {
-                const { clientX, clientY } = e.touches ? e.touches[0] : e;
-                const id = Date.now();
-                setTrail(prev => [...prev, { x: clientX, y: clientY, id, emoji: Math.random() > 0.5 ? '💖' : '💀' }].slice(-15));
-                setTimeout(() => { setTrail(prev => prev.filter(t => t.id !== id)); }, 800);
-            }, []);
-            useEffect(() => { window.addEventListener('mousemove', handleMove); window.addEventListener('touchmove', handleMove); return () => { window.removeEventListener('mousemove', handleMove); window.removeEventListener('touchmove', handleMove); }; }, [handleMove]);
-            return (
-                <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
-                    {trail.map(t => <div key={t.id} className="absolute text-xl animate-fade-out" style={{ left: t.x, top: t.y, transform: 'translate(-50%, -50%)' }}>{t.emoji}</div>)}
-                </div>
-            );
-        };
-
-        function PrankWeb() {
-            const [showModal, setShowModal] = useState(false);
-            const [currentBait, setCurrentBait] = useState(null);
-            const [baitIndex, setBaitIndex] = useState(0);
-            const [isFinished, setIsFinished] = useState(false);
-            const [chaosMode, setChaosMode] = useState(false);
-            const [adOrder, setAdOrder] = useState(REGULAR_ADS.map(ad => ad.id));
-            const [progress, setProgress] = useState(0);
-            const [downloadCount, setDownloadCount] = useState(14502);
-            const [btnText, setBtnText] = useState('DESCARGAR AQUÍ');
-            const [blink, setBlink] = useState(true);
-            const [glitch, setGlitch] = useState(false);
-            const [toasts, setToasts] = useState([]);
-
-            useEffect(() => { const i = setInterval(() => setBlink(b => !b), 500); return () => clearInterval(i); }, []);
-            useEffect(() => { const i = setInterval(() => { if (Math.random() > 0.9) { setGlitch(true); setTimeout(() => setGlitch(false), 200); } }, 2000); return () => clearInterval(i); }, []);
-            useEffect(() => { const i = setInterval(() => { setProgress(o => (o >= 99 ? 99 : o > 80 && Math.random() > 0.8 ? o - 15 : Math.random() > 0.6 ? o + Math.random() * 5 : o)); setDownloadCount(c => c + Math.floor(Math.random() * 10)); }, 200); return () => clearInterval(i); }, []);
-            
-            useEffect(() => {
-                if (isFinished) return;
-                const spawner = setInterval(() => {
-                    if (Math.random() > 0.3) {
-                        const randomNotif = FAKE_NOTIFICATIONS[Math.floor(Math.random() * FAKE_NOTIFICATIONS.length)];
-                        setToasts(prev => [...prev, { ...randomNotif, id: Date.now() + Math.random() }].slice(-3));
-                    }
-                }, chaosMode ? 2000 : 5000);
-                return () => clearInterval(spawner);
-            }, [chaosMode, isFinished]);
-
-            const shuffleAds = useCallback(() => {
-                setAdOrder(prev => { const n = [...prev]; for (let i = n.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [n[i], n[j]] = [n[j], n[i]]; } return n; });
-            }, []);
-
-            useEffect(() => {
-                if (chaosMode) {
-                    setAdOrder(prev => {
-                        const chaosIds = CHAOS_ADS.map(ad => ad.id);
-                        const newIds = chaosIds.filter(id => !prev.includes(id));
-                        const combined = [...prev, ...newIds];
-                        for (let i = combined.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [combined[i], combined[j]] = [combined[j], combined[i]]; }
-                        return combined;
-                    });
-                }
-            }, [chaosMode]);
-
-            const handleDownload = () => { if (isFinished) return; if (baitIndex < LISTA_DE_BROMAS.length) { setCurrentBait(LISTA_DE_BROMAS[baitIndex]); setShowModal(true); } else { setIsFinished(true); setShowModal(true); } };
-            const handleClose = () => { setShowModal(false); if (!isFinished) { setBaitIndex(p => p + 1); if (Math.random() > 0.7) setChaosMode(true); } };
-            const removeToast = (id) => { setToasts(p => p.filter(t => t.id !== id)); if (chaosMode && Math.random() > 0.5) setTimeout(() => setToasts(p => [...p, { ...FAKE_NOTIFICATIONS[Math.floor(Math.random() * FAKE_NOTIFICATIONS.length)], id: Date.now() }]), 200); };
-
-            const renderAd = (id) => {
-                const ad = ALL_ADS_DATA[id]; if (!ad) return null;
-                const isTrap = ad.isTrap;
-                return (
-                    <div key={id} className={`border-4 border-black p-2 my-2 ${ad.color} font-bold text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transform active:scale-95 transition-transform duration-100 cursor-pointer relative overflow-hidden`}
-                        onClick={() => { if (isTrap) setChaosMode(true); shuffleAds(); if (ad.link) window.open(ad.link, '_blank'); else alert("¡VIRUS! (Broma)"); }}>
-                        <div className="absolute top-0 right-0 bg-white text-[10px] px-1 border-l-2 border-b-2 border-black font-mono">AD</div>
-                        <div className="flex justify-between items-center border-b-2 border-black mb-1 pb-1"> <span className="text-xs blink-text text-red-600">¡OFERTA!</span> <X size={16} /> </div>
-                        <div className="flex flex-col items-center gap-2"> {ad.icon && <ad.icon size={32} className={chaosMode && isTrap ? "animate-pulse text-red-600" : "animate-bounce"} />} <h3 className="text-lg leading-tight uppercase">{chaosMode && isTrap ? "¡¡EXPLOSIÓN!!" : ad.title}</h3> <p className="text-xs bg-yellow-300 text-black px-1">{ad.text}</p> <button className="bg-blue-600 text-white text-xs px-2 py-1 mt-1 underline">CLICK AQUÍ</button> </div>
-                    </div>
-                );
-            };
-
-            return (
-                <div className={`min-h-screen ${chaosMode ? 'bg-[#ff00ff]' : 'bg-[#ff69b4]'} text-black font-sans overflow-x-hidden flex flex-col items-center transition-colors duration-500 pb-20 ${glitch ? 'invert scale-105' : ''}`}>
-                    <CursorTrail />
-                    <AnnoyingHelper visible={true} />
-                    <div className="w-full bg-black text-white p-2 flex justify-between items-center font-mono text-xs shadow-lg z-20">
-                        <div className="flex gap-2"> <Wifi size={14} className={chaosMode ? "text-red-500 animate-pulse" : ""} /> <span>{chaosMode ? "HACKED..." : "No Service"}</span> </div>
-                        <span className="animate-pulse text-red-500 font-bold">{chaosMode ? "0%" : "1%"} BATERÍA</span> <Battery size={14} className={chaosMode ? "text-red-500" : ""} />
-                    </div>
-                    <div className="w-full max-w-md p-2 flex flex-col gap-4 z-10">
-                        <header className={`bg-white border-4 border-black p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] text-center relative mt-2 ${chaosMode ? 'animate-shake' : ''}`}>
-                            <div className="absolute -top-3 -right-3 bg-yellow-400 border-2 border-black p-1 transform rotate-12"> <span className="font-bold text-xs">¡100% REAL!</span> </div>
-                            <h1 className="text-4xl font-black text-[#ff1493] uppercase drop-shadow-md leading-none" style={{ fontFamily: 'Impact' }}> {chaosMode ? "¡¡DESCARGAR YA!!" : "DESCARGAR REGALO"} </h1>
-                            <p className="text-sm font-bold mt-2">v.2.0.24 - NO VIRUS - HELLO KITTY EDITION</p>
-                        </header>
-                        {adOrder.map((id, index) => (
-                            <React.Fragment key={id}>
-                                {index === Math.floor(adOrder.length / 2) && (
-                                    <div className="bg-white border-4 border-black p-4 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden group z-10 hover:bg-gray-50">
-                                        <div className={`bg-red-600 text-white font-bold p-1 mb-2 ${blink ? 'opacity-100' : 'opacity-80'}`}> ⚠️ {chaosMode ? "¡¡ALERTA CRÍTICA!!" : "ATENCIÓN: TU REGALO ESTÁ LISTO"} ⚠️ </div>
-                                        <div className="w-full bg-gray-200 h-6 border-2 border-black mb-3 relative"> <div className="h-full bg-green-500 transition-all duration-300" style={{ width: `${progress}%` }}></div> <span className="absolute inset-0 text-xs font-bold flex items-center justify-center">CARGANDO... {Math.floor(progress)}%</span> </div>
-                                        <p className="mb-4 font-bold text-lg leading-tight"> {chaosMode ? "HAZ CLICK RÁPIDO O SE BORRA" : "Haz click abajo para reclamar premio."} </p>
-                                        <button onClick={handleDownload} onMouseEnter={() => !isFinished && setBtnText(["¿SEGURA?", "VIRUS...", "ESPERA"][Math.floor(Math.random()*3)])} className={`w-full ${chaosMode ? 'bg-red-500 animate-bounce' : 'bg-[#00ff00]'} border-4 border-black text-black font-black text-xl py-4 px-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none flex items-center justify-center gap-2`}> <Download size={28} className={blink ? "opacity-100" : "opacity-50"}/> <span>{isFinished ? 'DESCARGAR AHORA' : btnText}</span> </button>
-                                        <div className="mt-3 flex items-center justify-center gap-1 text-[10px] font-mono text-gray-600"> <Users size={12}/> <span>Usuarios: {downloadCount.toLocaleString()}</span> </div>
-                                    </div>
-                                )}
-                                {renderAd(id)}
-                            </React.Fragment>
-                        ))}
-                        <footer className="mt-4 text-center font-bold text-white text-xs p-4 bg-black border-4 border-white w-full"> © 1999-2024 SITIO 100% LEGÍTIMO NO FAKE </footer>
-                    </div>
-                    <div className="fixed bottom-0 right-0 p-2 flex flex-col gap-2 z-40 w-full max-w-sm pointer-events-none">
-                        {toasts.map(t => (
-                            <div key={t.id} className={`${t.color} border-2 border-black p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex gap-3 items-start animate-in slide-in-from-bottom pointer-events-auto bg-white`}> <t.icon className="w-6 h-6 shrink-0" /> <div className="flex-1"> <h4 className="font-bold text-sm uppercase leading-none mb-1">{t.title}</h4> <p className="text-xs leading-tight">{t.msg}</p> </div> <button onClick={() => removeToast(t.id)} className="hover:bg-black/10 p-1 rounded border border-black bg-gray-200"> <X size={14} /> </button> </div>
-                        ))}
-                    </div>
-                    {showModal && (
-                        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-                            <div className="bg-white w-full max-w-sm border-4 border-black shadow-[10px_10px_0px_0px_#ff1493] animate-in zoom-in duration-200">
-                                <div className="bg-[#ff1493] text-white font-bold p-2 border-b-4 border-black flex justify-between items-center"> <span>{isFinished ? 'System32.exe' : currentBait?.title || 'ALERTA'}</span> <button onClick={handleClose} className="hover:bg-black/20 p-1 rounded"><X size={20}/></button> </div>
-                                <div className="p-4 flex flex-col items-center text-center">
-                                    {!isFinished ? (
-                                        <> {currentBait?.type === 'alert' && <AlertTriangle size={64} className="text-yellow-500 mb-4 animate-bounce" />} {currentBait?.type === 'image' && <img src={currentBait.url} className="w-full h-auto max-h-[250px] object-contain border-2 border-black mb-4 bg-gray-100" />} {currentBait?.type === 'video' && <div className="w-full aspect-video mb-4 border-2 border-black bg-black"><iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${currentBait.videoId}?autoplay=1`} allowFullScreen></iframe></div>} <h2 className="text-xl font-black mb-2 uppercase leading-tight">{currentBait?.title}</h2> <p className="font-bold mb-6 text-sm">{currentBait?.message || currentBait?.text}</p> <button onClick={handleClose} className="w-full bg-gray-200 hover:bg-gray-300 border-2 border-black px-6 py-3 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none">{currentBait?.buttonText || 'Cerrar'}</button> </>
-                                    ) : (
-                                        <> <Gift size={80} className="text-[#ff1493] mb-4 animate-pulse" /> <h2 className="text-2xl font-black mb-2 text-[#ff1493]">{REGALO_FINAL.title}</h2> <p className="font-bold text-lg mb-4">{REGALO_FINAL.message}</p> <div className="bg-yellow-200 p-4 border-2 border-black border-dashed w-full mb-4"> <p className="font-mono text-sm mb-2 text-gray-600">TU CÓDIGO/REGALO:</p> <p className="text-2xl font-black">{REGALO_FINAL.code}</p> </div> <p className="text-sm italic">{REGALO_FINAL.subtext}</p> </>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            );
+        .typing-effect {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end);
         }
-        const root = createRoot(document.getElementById('root'));
-        root.render(<PrankWeb />);
-    </script>
-</body>
-</html>
+      `}</style>
+    </div>
+  );
+}
