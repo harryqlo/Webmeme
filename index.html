@@ -3,6 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ codex/create-meme-themed-clickbait-website
+    <title>Regalo 100% Real - No Fake</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --pink: #ff4fa3;
+        --hotpink: #ff1493;
+        --yellow: #fff176;
+      }
+      body {
+        background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.14), transparent 35%),
+          radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.14), transparent 25%),
+          linear-gradient(135deg, #ffd5f1 0%, #ff8ac5 45%, #ff62b0 100%);
+        font-family: "Comic Sans MS", "Comic Neue", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      .bg-noisy {
+        background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+        background-size: 14px 14px;
+      }
+      .scanline::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.2) 1px, transparent 1px, transparent 3px);
+        mix-blend-mode: screen;
+        pointer-events: none;
+        opacity: 0.2;
+      }
+      .pop {
+        filter: drop-shadow(8px 8px 0 #111);
+      }
+      .marquee span {
+        animation: marquee 18s linear infinite;
+      }
+      @keyframes marquee {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-100%);
+        }
+      }
+      .blink {
+        animation: blink 0.8s steps(2, start) infinite;
+      }
+      @keyframes blink {
+        to {
+          visibility: hidden;
+        }
+      }
+      .wiggle {
+        animation: wiggle 0.4s ease-in-out infinite;
+      }
+      @keyframes wiggle {
+        0% {
+          transform: rotate(-1deg) translateY(0);
+        }
+        50% {
+          transform: rotate(1deg) translateY(-2px);
+        }
+        100% {
+          transform: rotate(-1deg) translateY(0);
+=======
     <title>Webmeme | Broma retro que sí carga</title>
     <link
       rel="preconnect"
@@ -281,10 +345,244 @@
         100% {
           transform: translateY(0);
           opacity: 1;
+ main
         }
       }
     </style>
   </head>
+codex/create-meme-themed-clickbait-website
+  <body class="text-black min-h-screen flex flex-col items-center">
+    <header class="w-full bg-black text-white text-center py-3 shadow-lg uppercase text-xs tracking-[0.2em]">
+      100% Regalo Real | No virus | No timos (creo)
+    </header>
+
+    <main class="w-full max-w-4xl px-4 py-6 md:py-10">
+      <section class="relative overflow-hidden rounded-3xl border-4 border-black bg-white bg-noisy p-5 md:p-8 shadow-[12px_12px_0_#111]">
+        <div class="scanline absolute inset-0 pointer-events-none"></div>
+        <div class="flex flex-col md:flex-row gap-6 items-center">
+          <div class="flex-1 text-center md:text-left space-y-4">
+            <p class="inline-flex items-center gap-2 bg-black text-white px-3 py-1 rounded-full text-xs font-bold tracking-tight shadow-[4px_4px_0_var(--pink)]">
+              <span class="blink">⬤</span> Oferta misteriosa a 2 km de ti
+            </p>
+            <h1 class="text-3xl md:text-4xl font-black leading-tight text-black">
+              Haz clic aquí para reclamar tu <span class="text-[var(--hotpink)]">súper regalo secreto</span> y deja de ver anuncios de "novias cerca de ti".
+            </h1>
+            <p class="font-semibold text-sm md:text-base text-gray-800">
+              Solo tienes que sobrevivir a unas cuantas pantallas de "haz clic" estilo anuncio sospechoso. Tú controlas cuántas trampas hay, yo pongo los memes.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center gap-4">
+              <label class="flex items-center gap-3 font-bold text-sm bg-yellow-200 border-2 border-black px-3 py-2 rounded-lg shadow-[6px_6px_0_#111]">
+                <span>Pasos troll</span>
+                <input id="stepSlider" type="range" min="1" max="10" value="4" class="accent-[var(--hotpink)]" />
+                <span id="stepCount" class="text-xl text-[var(--hotpink)]">4</span>
+              </label>
+              <button id="startButton" class="flex-1 sm:flex-none bg-[var(--hotpink)] text-white font-black px-6 py-3 rounded-xl border-4 border-black shadow-[8px_8px_0_#111] text-lg active:translate-y-1 active:shadow-none">
+                👉 ¡Quiero mi regalo YA!
+              </button>
+            </div>
+            <div class="marquee overflow-hidden border-2 border-black rounded-lg bg-black text-[var(--yellow)] font-mono text-xs uppercase shadow-inner">
+              <div class="flex gap-6 py-2 px-3 whitespace-nowrap">
+                <span>⬇️ Descargar cupón premium ahora mismo</span>
+                <span>❤️ Singles cerca de ti quieren tu meme</span>
+                <span>🎁 Regalos gratis en tu zona (sin engaños)</span>
+                <span>⚡ Instala 7 antivirus antes de seguir</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex-1 w-full">
+            <div class="relative bg-white border-4 border-black rounded-2xl p-4 shadow-[10px_10px_0_#111]">
+              <img src="https://i.imgur.com/7v7Ztxx.png" alt="Hello Kitty meme" class="w-full rounded-lg border-2 border-black" />
+              <p class="text-center text-xs font-bold mt-3 uppercase">Imagen meramente ilustrativa de la elegancia del regalo</p>
+              <div class="absolute -top-4 -left-4 bg-yellow-300 border-4 border-black px-3 py-1 rounded-xl font-black text-sm rotate-[-4deg] shadow-[6px_6px_0_#111]">
+                Oferta limitada
+              </div>
+              <div class="absolute -bottom-4 -right-4 bg-[var(--hotpink)] text-white border-4 border-black px-4 py-2 rounded-xl font-black rotate-[5deg] shadow-[6px_6px_0_#111]">
+                99% Real no fake
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <article class="bg-white border-4 border-black rounded-2xl p-4 shadow-[10px_10px_0_#111] flex items-center gap-4">
+          <div class="bg-black text-[var(--yellow)] px-3 py-2 rounded-lg font-black text-xs uppercase">Anuncio</div>
+          <div>
+            <p class="font-black text-lg">Clic aquí para ganar un celular rosita (no es scam, quizá).</p>
+            <button class="mt-2 px-4 py-2 bg-[var(--pink)] text-white border-2 border-black rounded-lg font-bold shadow-[4px_4px_0_#111]">Descargar APK misteriosa</button>
+          </div>
+        </article>
+        <article class="bg-white border-4 border-black rounded-2xl p-4 shadow-[10px_10px_0_#111] flex items-center gap-4">
+          <div class="bg-[var(--pink)] text-white px-3 py-2 rounded-lg font-black text-xs uppercase">Bonus</div>
+          <div>
+            <p class="font-black text-lg">Regalos cerca de ti esperando ser clickeados. Ahora mismo.</p>
+            <button class="mt-2 px-4 py-2 bg-black text-[var(--yellow)] border-2 border-black rounded-lg font-bold shadow-[4px_4px_0_#111]">Ver ubicaciones</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-10 bg-white border-4 border-black rounded-2xl p-5 shadow-[12px_12px_0_#111]">
+        <h2 class="text-2xl font-black text-center mb-4">Modo troll</h2>
+        <p class="text-center font-semibold text-sm text-gray-800 mb-6">Cada vez que toques el botón, aparecerá otro nivel de anuncio-broma. Ajusta el número de niveles con el deslizador. Cuando se acaben, sale el regalo de verdad con un video sorpresa.</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs font-bold uppercase">
+          <div class="bg-[var(--yellow)] border-2 border-black rounded-lg py-3 shadow-[4px_4px_0_#111]">Pop-up sospechoso</div>
+          <div class="bg-[var(--pink)] text-white border-2 border-black rounded-lg py-3 shadow-[4px_4px_0_#111]">Haz clic aquí pls</div>
+          <div class="bg-black text-[var(--yellow)] border-2 border-black rounded-lg py-3 shadow-[4px_4px_0_#111]">Regalos cerca de ti</div>
+          <div class="bg-white border-2 border-black rounded-lg py-3 shadow-[4px_4px_0_#111]">5000% real</div>
+        </div>
+      </section>
+    </main>
+
+    <div id="modal" class="fixed inset-0 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4 z-50">
+      <div class="relative w-full max-w-md bg-white border-4 border-black rounded-3xl shadow-[14px_14px_0_#111] overflow-hidden">
+        <div id="modalBanner" class="h-2 w-full bg-gradient-to-r from-[var(--hotpink)] via-yellow-300 to-[var(--pink)]"></div>
+        <div class="p-5 space-y-4">
+          <div class="flex items-start gap-3">
+            <div class="h-10 w-10 rounded-full bg-[var(--pink)] border-2 border-black flex items-center justify-center text-white font-black text-xl wiggle">★</div>
+            <div class="flex-1">
+              <p id="modalTag" class="text-xs font-black uppercase text-[var(--hotpink)]">Anuncio urgente</p>
+              <h3 id="modalTitle" class="text-2xl font-black leading-tight">Haz clic ahora mismo</h3>
+              <p id="modalText" class="font-semibold text-sm text-gray-800 mt-1">Instala este regalo ilimitado para desbloquear más regalos ilimitados.</p>
+            </div>
+            <button id="closeModal" class="text-black font-black border-2 border-black px-2 rounded-lg hover:bg-black hover:text-white">X</button>
+          </div>
+
+          <div id="modalMedia" class="border-2 border-black rounded-2xl overflow-hidden bg-gray-100"></div>
+
+          <button id="modalAction" class="w-full bg-[var(--hotpink)] text-white font-black px-4 py-3 rounded-xl border-4 border-black shadow-[8px_8px_0_#111] text-lg active:translate-y-1 active:shadow-none">
+            Seguir dando clic
+          </button>
+          <p id="progressText" class="text-center text-xs font-bold text-gray-700 uppercase">Paso 1 de 4</p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="w-full text-center text-xs font-bold py-4 bg-black text-[var(--yellow)] uppercase tracking-widest border-t-4 border-[var(--hotpink)] mt-auto">
+      1999 - 2024 | Web 100% legit | Hola mamá si ves esto
+    </footer>
+
+    <script>
+      const baitTemplates = [
+        {
+          title: "Gana un celular rosita",
+          text: "Solo tienes que descargar 7 APKs misteriosas. No es broma (o sí).",
+          media: '<div class="bg-black text-[var(--yellow)] text-center font-black py-10 text-xl">Publicidad premium</div>',
+          tag: "Oferta local",
+          button: "Descargar ahora",
+        },
+        {
+          title: "Mujeres solteras cerca de ti",
+          text: "También quieren el meme. Haz clic para mostrar tu interés (o huir).",
+          media: '<img src="https://media.giphy.com/media/3oEduSbSGpGaRX2Vri/giphy.gif" class="w-full h-52 object-cover" alt="Gif" />',
+          tag: "Match instantáneo",
+          button: "Conocer ahora",
+        },
+        {
+          title: "El antivirus gratis de tu tío",
+          text: "Promete protegerte de todo excepto de esta broma. Instálalo igual.",
+          media: '<div class="bg-[var(--yellow)] text-center font-black py-12 text-xl">Protección 9000</div>',
+          tag: "Seguridad máxima",
+          button: "Instalar.exe",
+        },
+        {
+          title: "1 regalo queda en tu zona",
+          text: "Los expertos dicen que debes clickear YA mismo para no perderlo.",
+          media: '<img src="https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif" class="w-full h-52 object-cover" alt="Gif" />',
+          tag: "Urgente",
+          button: "Lo quiero",
+        },
+        {
+          title: "Regalo rosa certificado",
+          text: "Hello Kitty aprueba este mensaje. Probablemente.",
+          media: '<div class="bg-white text-center font-black py-12 text-xl text-[var(--hotpink)]">Calidad 100%</div>',
+          tag: "Estándar internacional",
+          button: "Sellar garantía",
+        },
+      ];
+
+      const finalGift = {
+        title: "Ahora sí, regalo real",
+        text: "Escanea el QR o abre el enlace. Prometido, aquí sí hay video chistoso.",
+        qr: "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      };
+
+      const slider = document.getElementById("stepSlider");
+      const stepCount = document.getElementById("stepCount");
+      const startButton = document.getElementById("startButton");
+      const modal = document.getElementById("modal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalText = document.getElementById("modalText");
+      const modalAction = document.getElementById("modalAction");
+      const modalMedia = document.getElementById("modalMedia");
+      const progressText = document.getElementById("progressText");
+      const modalTag = document.getElementById("modalTag");
+      const closeModal = document.getElementById("closeModal");
+      const modalBanner = document.getElementById("modalBanner");
+
+      let totalSteps = parseInt(slider.value, 10);
+      let currentStep = 0;
+
+      slider.addEventListener("input", () => {
+        totalSteps = parseInt(slider.value, 10);
+        stepCount.textContent = totalSteps;
+        if (!modal.classList.contains("hidden")) {
+          updateModal();
+        }
+      });
+
+      startButton.addEventListener("click", () => {
+        currentStep = 0;
+        updateModal();
+        modal.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
+      });
+
+      closeModal.addEventListener("click", () => {
+        modal.classList.add("hidden");
+        document.body.classList.remove("overflow-hidden");
+      });
+
+      modalAction.addEventListener("click", () => {
+        if (currentStep >= totalSteps) {
+          closeModal.click();
+          return;
+        }
+        currentStep += 1;
+        updateModal();
+      });
+
+      function pickBait(step) {
+        const idx = step % baitTemplates.length;
+        return baitTemplates[idx];
+      }
+
+      function updateModal() {
+        if (currentStep >= totalSteps) {
+          modalTitle.textContent = finalGift.title;
+          modalText.textContent = finalGift.text;
+          modalMedia.innerHTML = `
+            <div class="p-4 flex flex-col items-center gap-3">
+              <img src="${finalGift.qr}" alt="QR sorpresa" class="border-2 border-black rounded-xl" />
+              <a href="${finalGift.link}" target="_blank" class="text-[var(--hotpink)] font-black underline">Abrir video directamente</a>
+            </div>`;
+          modalAction.textContent = "Cerrar y compartir";
+          modalTag.textContent = "Regalo final";
+          progressText.textContent = "FIN DEL TROLLEO";
+          modalBanner.className = "h-2 w-full bg-gradient-to-r from-yellow-300 via-[var(--hotpink)] to-black";
+          return;
+        }
+
+        const bait = pickBait(currentStep);
+        modalTitle.textContent = bait.title;
+        modalText.textContent = bait.text;
+        modalMedia.innerHTML = bait.media;
+        modalAction.textContent = bait.button;
+        modalTag.textContent = bait.tag;
+        progressText.textContent = `Paso ${currentStep + 1} de ${totalSteps}`;
+        modalBanner.className = "h-2 w-full bg-gradient-to-r from-[var(--hotpink)] via-[var(--pink)] to-yellow-300";
+      }
+
   <body>
     <div class="page">
       <header>
@@ -451,6 +749,7 @@
       panicBtn.addEventListener("click", panic);
 
       randomMeme();
+ main
     </script>
   </body>
 </html>
