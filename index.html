@@ -3,32 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Webmeme | Broma retro que sí carga</title>
+    <title>Entrega secreta | Webmeme retro</title>
     <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-    />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
       :root {
-        color-scheme: light;
-        --bg-1: #140924;
-        --bg-2: #280f45;
-        --accent: #ff66c4;
-        --accent-2: #6cf1ff;
-        --ink: #f5f4f8;
-        --glass: rgba(255, 255, 255, 0.1);
-        --border: rgba(255, 255, 255, 0.25);
-        --yellow: #fff176;
+        --pink: #ff71d1;
+        --yellow: #fff15c;
+        --green: #c3ff68;
+        --cyan: #a9f6ff;
+        --blue: #9dc7ff;
+        --peach: #ffd7b5;
+        --shadow: 6px 7px 0px #000;
       }
 
       * {
@@ -38,689 +26,271 @@
       body {
         margin: 0;
         min-height: 100vh;
-        font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
-        background: radial-gradient(circle at 30% 20%, #2c0f52 0, transparent 25%),
-          radial-gradient(circle at 80% 0%, #320c4d 0, transparent 30%),
-          linear-gradient(135deg, var(--bg-1), var(--bg-2));
-        color: var(--ink);
+        background: var(--pink);
+        font-family: "Baloo 2", system-ui, -apple-system, sans-serif;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 32px 18px 48px;
+        padding: 28px 14px 48px;
+        color: #000;
+      }
+
+      .confetti {
+        position: fixed;
+        top: 18px;
+        left: 14px;
+        display: flex;
+        gap: 6px;
+        flex-direction: column;
+        z-index: 10;
+      }
+
+      .confetti span {
+        display: inline-flex;
+        width: 30px;
+        height: 30px;
+        border: 2px solid #000;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        background: #ffe9f9;
+        box-shadow: var(--shadow);
+      }
+
+      .confetti .tag {
+        border-radius: 12px;
+        width: auto;
+        padding: 6px 12px;
+        height: auto;
+        font-size: 14px;
+        align-self: flex-start;
       }
 
       .page {
-        width: min(1100px, 100%);
-        display: grid;
-        gap: 22px;
-      }
-
-      header.top {
+        width: min(900px, 100%);
         display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 16px;
-        justify-content: space-between;
-        padding: 18px 20px;
-        border: 1px solid var(--border);
-        background: linear-gradient(120deg, rgba(255, 102, 196, 0.15), rgba(108, 241, 255, 0.08));
-        border-radius: 16px;
-        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
-        backdrop-filter: blur(8px);
+        flex-direction: column;
+        gap: 18px;
       }
 
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
+      header.hero {
+        background: var(--yellow);
+        border: 3px solid #000;
+        box-shadow: var(--shadow);
+        border-radius: 22px;
+        padding: 18px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
       }
 
-      .brand .logo {
-        width: 46px;
-        height: 46px;
-        border-radius: 12px;
-        background: linear-gradient(135deg, #ff66c4, #6cf1ff);
-        display: grid;
-        place-items: center;
-        font-size: 20px;
-        font-weight: 800;
-        color: #0c011b;
-        box-shadow: 0 10px 30px rgba(255, 102, 196, 0.35);
-      }
-
-      .brand h1 {
+      header.hero h1 {
+        font-size: clamp(28px, 6vw, 40px);
         margin: 0;
-        font-size: 26px;
         letter-spacing: -0.5px;
+        text-transform: uppercase;
       }
 
-      .brand p {
-        margin: 0;
-        color: #dcd6f3;
-        opacity: 0.9;
+      header.hero p {
+        margin: 6px 0 14px;
+        font-size: 17px;
       }
 
-      .chip {
-        padding: 8px 12px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        color: #fefbff;
-        font-weight: 600;
-        background: rgba(255, 255, 255, 0.08);
+      .btn-main {
         display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(90deg, #34ffb2, #53a4ff);
+        padding: 12px 20px;
+        border-radius: 18px;
+        border: 3px solid #000;
+        font-size: 18px;
+        text-decoration: none;
+        color: #000;
+        font-weight: 700;
+        box-shadow: var(--shadow);
+      }
+
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .card {
+        border: 3px solid #000;
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        padding: 18px 16px 16px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .card h2 {
+        margin: 0;
+        font-size: clamp(18px, 4vw, 24px);
+        display: flex;
         align-items: center;
         gap: 8px;
       }
 
-      main.content {
-        display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: 18px;
-      }
-
-      @media (max-width: 960px) {
-        main.content {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      .card {
-        border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 18px;
-        padding: 20px;
-        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
-      }
-
-      .card h2 {
-        margin: 0 0 10px;
-        font-size: 22px;
-      }
-
       .card p {
-        margin: 0 0 14px;
-        color: #e2def7;
-        line-height: 1.6;
-      }
-
-      .meme-stage {
-        position: relative;
-        border-radius: 16px;
-        overflow: hidden;
-        background: #0b0714;
-        border: 1px solid var(--border);
-        min-height: 360px;
-        display: grid;
-        place-items: center;
-        isolation: isolate;
-      }
-
-      .meme-stage img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      .meme-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(12, 1, 27, 0.75));
-      }
-
-      .meme-caption {
-        position: absolute;
-        inset: 0;
-        display: grid;
-        align-content: flex-end;
-        padding: 22px;
-        gap: 10px;
-        z-index: 2;
-      }
-
-      .meme-caption h3 {
         margin: 0;
-        font-size: 24px;
-        text-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+        font-size: 15px;
+        max-width: 680px;
       }
 
-      .meme-caption p {
-        margin: 0;
-        color: #f7f1ff;
-        opacity: 0.92;
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 14px;
+        border: 2px solid #000;
+        border-radius: 14px;
+        box-shadow: 4px 4px 0px #000;
+        font-weight: 700;
       }
 
-      .controls {
+      .actions {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        margin-top: 14px;
       }
 
-      button {
-        border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.08);
-        color: var(--ink);
-        padding: 10px 14px;
-        border-radius: 12px;
-        font-size: 15px;
-        font-weight: 700;
-        letter-spacing: 0.2px;
+      .actions a,
+      .actions button {
         cursor: pointer;
-        transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-      }
-
-      button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
-      }
-
-      .primary {
-        background: linear-gradient(135deg, #ff66c4, #6cf1ff);
-        color: #0c011b;
-      }
-
-      .danger {
-        background: rgba(255, 102, 102, 0.16);
-        border-color: rgba(255, 102, 102, 0.5);
-      }
-
-      .list {
-        display: grid;
-        gap: 10px;
-        margin-top: 10px;
-      }
-
-      .list-item {
-        padding: 12px 14px;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px dashed var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-      }
-
-      .tag {
-        font-size: 12px;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid var(--border);
-      }
-
-      footer.page-footer {
-        text-align: center;
-        font-size: 14px;
-        opacity: 0.8;
-      }
-
-      .toast {
-        position: fixed;
-        right: 18px;
-        bottom: 18px;
-        padding: 12px 14px;
+        text-decoration: none;
+        color: #000;
+        padding: 10px 14px;
+        border: 2px solid #000;
         border-radius: 14px;
-        background: rgba(12, 1, 27, 0.9);
-        border: 1px solid var(--border);
-        color: var(--ink);
-        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.3);
-        min-width: 240px;
-        display: none;
+        font-weight: 700;
+        background: #fff;
+        box-shadow: 4px 4px 0px #000;
       }
 
-      .toast.show {
-        display: block;
-        animation: pop 240ms ease;
+      .guard {
+        display: grid;
+        gap: 6px;
+        text-align: center;
+        font-size: 15px;
+        background: #fff;
+        border: 3px solid #000;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: var(--shadow);
       }
 
-      /* Evita que el modal oculte toda la página si Tailwind no carga. */
-      #modal {
-        display: none;
+      footer {
+        margin-top: 24px;
+        font-size: 13px;
+        color: #000;
+        text-align: center;
       }
 
-      #modal.active {
-        display: flex;
-      }
-
-      @keyframes pop {
-        0% {
-          transform: translateY(18px);
-          opacity: 0;
+      @media (max-width: 700px) {
+        body {
+          padding: 20px 12px 36px;
         }
-        100% {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
 
-      .marquee-track {
-        animation: marquee 16s linear infinite;
-      }
+        .confetti {
+          position: static;
+          flex-direction: row;
+          justify-content: center;
+          width: 100%;
+        }
 
-      @keyframes marquee {
-        from {
-          transform: translateX(0);
+        .confetti span {
+          transform: rotate(-4deg);
         }
-        to {
-          transform: translateX(-50%);
-        }
-      }
 
-      .wiggle {
-        animation: wiggle 0.4s ease-in-out infinite;
-      }
+        .page {
+          margin-top: 10px;
+        }
 
-      @keyframes wiggle {
-        0% {
-          transform: rotate(-1deg) translateY(0);
-        }
-        50% {
-          transform: rotate(1deg) translateY(-2px);
-        }
-        100% {
-          transform: rotate(-1deg) translateY(0);
+        .actions {
+          flex-direction: column;
         }
       }
     </style>
   </head>
   <body>
-    <div class="page">
-      <header class="top">
-        <div class="brand">
-          <div class="logo">WM</div>
-          <div>
-            <h1>Webmeme</h1>
-            <p>Broma retro que sí carga</p>
-          </div>
-        </div>
-        <div class="chip">100% Real · Museo de memes</div>
+    <div class="confetti">
+      <span class="tag">No me ignores</span>
+      <span>💓</span>
+      <span>🤪</span>
+      <span>⭐</span>
+      <span>⚡</span>
+    </div>
+
+    <main class="page" aria-label="Contenido principal">
+      <header class="hero">
+        <h1>descargar regalo</h1>
+        <p>V.2.2.4 – now kiss – very legit edition</p>
+        <a class="btn-main" href="#descarga">
+          📥 Descargar ahora
+        </a>
       </header>
 
-      <main class="content">
-        <section class="card">
-          <div class="meme-stage" id="meme-stage">
-            <img id="meme-image" src="https://i.imgflip.com/7xg4v8.jpg" alt="Meme" />
-            <div class="meme-overlay"></div>
-            <div class="meme-caption">
-              <h3 id="meme-title">Pero fuiste troleado</h3>
-              <p id="meme-text">Cuando esperabas un .exe y solo llegó un chiste.</p>
-            </div>
-          </div>
-
-          <div class="controls">
-            <button id="random-btn" class="primary">Cambiar meme</button>
-            <button id="copy-btn">Copiar texto</button>
-            <button id="download-btn">Abrir imagen</button>
-            <button id="panic-btn" class="danger">Botón rojo</button>
-          </div>
-        </section>
-
-        <aside class="card">
-          <h2>Instrucciones responsables</h2>
-          <div class="list">
-            <div class="list-item">
-              <span>1. Da clic en el botón y sigue el show.</span>
-              <span class="tag">Seguro</span>
-            </div>
-            <div class="list-item">
-              <span>2. Ajusta cuántos pasos troll quieres.</span>
-              <span class="tag">Personalizado</span>
-            </div>
-            <div class="list-item">
-              <span>3. Si quieres la imagen, ábrela en otra pestaña.</span>
-              <span class="tag">Seguro</span>
-            </div>
-            <div class="list-item">
-              <span>4. El botón rojo solo vibra. No formateará nada.</span>
-              <span class="tag">Broma</span>
-            </div>
-          </div>
-
-          <p style="margin-top: 14px; color: #c9c4e8;">
-            Webmeme nació como broma, pero ahora es un museo de momentos virales. No hay instaladores raros, solo nostalgia y caos controlado.
+      <section class="stack" id="descarga">
+        <article class="card" style="background: #ffe1e1">
+          <h2>🎀 ¿Gatitas solas cerca de ti?</h2>
+          <p>
+            Owo, owo, owo! Ya deja el scroll y mira, porque el tesoro está en este
+            botón gigante.
           </p>
-        </aside>
-      </main>
+          <div class="pill" style="background: #fff6a7">CLICK AQUÍ</div>
+        </article>
 
-      <section class="mt-6 bg-white/5 border border-[var(--border)] rounded-2xl p-5 shadow-lg">
-        <div class="flex flex-col lg:flex-row gap-6 items-start">
-          <div class="flex-1 space-y-4">
-            <p class="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-bold tracking-tight">
-              <span class="wiggle">⬤</span> Oferta misteriosa a 2 km de ti
-            </p>
-            <h2 class="text-3xl font-black leading-tight text-white">
-              Haz clic aquí para reclamar tu <span class="text-[var(--accent)]">súper regalo secreto</span> y deja de ver anuncios de "novias cerca de ti".
-            </h2>
-            <p class="font-semibold text-sm md:text-base text-gray-200">
-              Solo tienes que sobrevivir a unas cuantas pantallas estilo anuncio sospechoso. Tú controlas cuántas trampas hay, yo pongo los memes.
-            </p>
-            <div class="flex flex-col sm:flex-row items-center gap-4">
-              <label class="flex items-center gap-3 font-bold text-sm bg-white/10 border border-[var(--border)] px-3 py-2 rounded-lg shadow-lg">
-                <span>Pasos troll</span>
-                <input id="stepSlider" type="range" min="1" max="10" value="4" class="accent-[var(--accent)]" />
-                <span id="stepCount" class="text-xl text-[var(--accent)]">4</span>
-              </label>
-              <button id="startButton" class="flex-1 sm:flex-none bg-[var(--accent)] text-black font-black px-6 py-3 rounded-xl border border-[var(--border)] shadow-lg text-lg active:translate-y-1">
-                👉 ¡Quiero mi regalo YA!
-              </button>
-            </div>
-            <div class="overflow-hidden border border-[var(--border)] rounded-lg bg-white/5 text-[var(--yellow)] font-mono text-xs uppercase shadow-inner">
-              <div class="marquee-track flex gap-6 py-2 px-3 whitespace-nowrap">
-                <span>⬇️ Descargar cupón premium ahora mismo</span>
-                <span>❤️ Singles cerca de ti quieren tu meme</span>
-                <span>🎁 Regalos gratis en tu zona (sin engaños)</span>
-                <span>⚡ Instala 7 antivirus antes de seguir</span>
-                <span>⬇️ Descargar cupón premium ahora mismo</span>
-                <span>❤️ Singles cerca de ti quieren tu meme</span>
-              </div>
-            </div>
-          </div>
-          <div class="flex-1 w-full">
-            <div class="relative bg-white border-2 border-black rounded-2xl p-4 shadow-[10px_10px_0_#111]">
-              <img src="https://i.imgur.com/7v7Ztxx.png" alt="Hello Kitty meme" class="w-full rounded-lg border-2 border-black" />
-              <p class="text-center text-xs font-bold mt-3 uppercase text-black">Imagen meramente ilustrativa de la elegancia del regalo</p>
-              <div class="absolute -top-4 -left-4 bg-yellow-300 border-4 border-black px-3 py-1 rounded-xl font-black text-sm rotate-[-4deg] shadow-[6px_6px_0_#111] text-black">
-                Oferta limitada
-              </div>
-              <div class="absolute -bottom-4 -right-4 bg-[var(--accent)] text-black border-4 border-black px-4 py-2 rounded-xl font-black rotate-[5deg] shadow-[6px_6px_0_#111]">
-                99% Real no fake
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <article class="bg-white border-4 border-black rounded-2xl p-4 shadow-[10px_10px_0_#111] flex items-center gap-4 text-black">
-          <div class="bg-black text-[var(--yellow)] px-3 py-2 rounded-lg font-black text-xs uppercase">Anuncio</div>
-          <div>
-            <p class="font-black text-lg">Clic aquí para ganar un celular rosita (no es scam, quizá).</p>
-            <button class="mt-2 px-4 py-2 bg-[var(--accent)] text-black border-2 border-black rounded-lg font-bold shadow-[4px_4px_0_#111]">Descargar APK misteriosa</button>
+        <article class="card" style="background: var(--yellow)">
+          <h2>⚠️ atención: tu regalo está listo</h2>
+          <p>
+            Haz click aquí para reclamar tu premio. No te lo pierdas o lloras después.
+          </p>
+          <div class="actions">
+            <a href="#regalo" style="background: #fff;">🥳 descargar aquí</a>
+            <button type="button">ya lo sé, dame mi premio</button>
           </div>
         </article>
-        <article class="bg-white border-4 border-black rounded-2xl p-4 shadow-[10px_10px_0_#111] flex items-center gap-4 text-black">
-          <div class="bg-[var(--accent)] text-black px-3 py-2 rounded-lg font-black text-xs uppercase">Bonus</div>
-          <div>
-            <p class="font-black text-lg">Regalos cerca de ti esperando ser clickeados. Ahora mismo.</p>
-            <button class="mt-2 px-4 py-2 bg-black text-[var(--yellow)] border-2 border-black rounded-lg font-bold shadow-[4px_4px_0_#111]">Ver ubicaciones</button>
+
+        <article class="card" style="background: var(--green)">
+          <h2>🍕 Ganaste un pepperoni</h2>
+          <p>
+            La oferta dura 10 segundos, pero como es una broma dura para siempre.
+          </p>
+          <div class="pill" style="background: #fff">REGALO AQUÍ</div>
+        </article>
+
+        <article class="card" style="background: var(--cyan)">
+          <h2>🔔 alerta: tu celular tiene calor</h2>
+          <p>
+            Tengo tu dirección y número. Dame tu ubicación para llevarte tu pizza en la madrugada.
+          </p>
+          <div class="actions">
+            <a href="#dato">👉 click aquí</a>
+            <button type="button">Enviar ubicación 🔥</button>
           </div>
+        </article>
+
+        <article class="card" style="background: var(--blue)">
+          <h2>🎭 mensaje misterioso</h2>
+          <p>
+            “Si lees esto eres parte de la élite secreta que sabe darle click a un botón”.
+          </p>
+          <div class="pill" style="background: var(--peach)">yo entendí la referencia</div>
         </article>
       </section>
 
-      <section class="mt-6 bg-white border-4 border-black rounded-2xl p-5 shadow-[12px_12px_0_#111] text-black">
-        <h2 class="text-2xl font-black text-center mb-4">Modo troll</h2>
-        <p class="text-center font-semibold text-sm text-gray-800 mb-6">Cada vez que toques el botón, aparecerá otro nivel de anuncio-broma. Ajusta el número de niveles con el deslizador. Cuando se acaben, sale el regalo de verdad con un video sorpresa.</p>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs font-bold uppercase">
-          <div class="bg-[var(--yellow)] border-2 border-black rounded-lg py-3 shadow-[4px_4px_0_#111]">Pop-up sospechoso</div>
-          <div class="bg-[var(--accent)] text-black border-2 border-black rounded-lg py-3 shadow-[4px_4px_0_#111]">Haz clic aquí pls</div>
-          <div class="bg-black text-[var(--yellow)] border-2 border-black rounded-lg py-3 shadow-[4px_4px_0_#111]">Regalos cerca de ti</div>
-          <div class="bg-white border-2 border-black rounded-lg py-3 shadow-[4px_4px_0_#111]">5000% real</div>
-        </div>
-      </section>
-
-      <footer class="page-footer">© 2024 Webmeme — Humor vintage con medidas de seguridad modernas.</footer>
-    </div>
-
-    <div id="modal" class="fixed inset-0 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4 z-50">
-      <div class="relative w-full max-w-md bg-white border-4 border-black rounded-3xl shadow-[14px_14px_0_#111] overflow-hidden text-black">
-        <div id="modalBanner" class="h-2 w-full bg-gradient-to-r from-[var(--accent)] via-yellow-300 to-[var(--accent-2)]"></div>
-        <div class="p-5 space-y-4">
-          <div class="flex items-start gap-3">
-            <div class="h-10 w-10 rounded-full bg-[var(--accent)] border-2 border-black flex items-center justify-center font-black text-xl wiggle">★</div>
-            <div class="flex-1">
-              <p id="modalTag" class="text-xs font-black uppercase text-[var(--accent)]">Anuncio urgente</p>
-              <h3 id="modalTitle" class="text-2xl font-black leading-tight">Haz clic ahora mismo</h3>
-              <p id="modalText" class="font-semibold text-sm text-gray-800 mt-1">Instala este regalo ilimitado para desbloquear más regalos ilimitados.</p>
-            </div>
-            <button id="closeModal" class="text-black font-black border-2 border-black px-2 rounded-lg hover:bg-black hover:text-white">X</button>
-          </div>
-
-          <div id="modalMedia" class="border-2 border-black rounded-2xl overflow-hidden bg-gray-100"></div>
-
-          <button id="modalAction" class="w-full bg-[var(--accent)] text-black font-black px-4 py-3 rounded-xl border-4 border-black shadow-[8px_8px_0_#111] text-lg active:translate-y-1">
-            Seguir dando clic
-          </button>
-          <p id="progressText" class="text-center text-xs font-bold text-gray-700 uppercase">Paso 1 de 4</p>
-        </div>
+      <div class="guard">
+        <strong>guardia: buenos días</strong>
+        <span>El internet es de miedo. No compartas datos sin memes.</span>
+        <span>sirvase a recibir su regalo y disfrute.</span>
       </div>
-    </div>
+    </main>
 
-    <div class="toast" id="toast"></div>
-
-    <script>
-      const memes = [
-        {
-          title: "Pero fuiste troleado",
-          text: "Cuando esperabas un .exe y solo llegó un chiste.",
-          image: "https://i.imgflip.com/7xg4v8.jpg",
-        },
-        {
-          title: "Ese no era el link",
-          text: "Descarga cancelada, risas activadas.",
-          image: "https://i.imgflip.com/65wctj.jpg",
-        },
-        {
-          title: "Momento técnico",
-          text: "La PC no explotó, pero tu dignidad quedó en cache.",
-          image: "https://i.imgflip.com/6lh5qj.jpg",
-        },
-        {
-          title: "Tutorial definitivo",
-          text: "Paso 1: Respira. Paso 2: Comparte el meme. Fin.",
-          image: "https://i.imgflip.com/5sylbk.jpg",
-        },
-        {
-          title: "Modo nostalgia",
-          text: "Cuando el internet sonaba como modem pero igual reías.",
-          image: "https://i.imgflip.com/1bij.jpg",
-        },
-        {
-          title: "Error 404: miedo no encontrado",
-          text: "Todo seguro, solo estás en un museo de memes.",
-          image: "https://i.imgflip.com/46rh17.jpg",
-        },
-      ];
-
-      const baitTemplates = [
-        {
-          title: "Gana un celular rosita",
-          text: "Solo tienes que descargar 7 APKs misteriosas. No es broma (o sí).",
-          media: '<div class="bg-black text-[var(--yellow)] text-center font-black py-10 text-xl">Publicidad premium</div>',
-          tag: "Oferta local",
-          button: "Descargar ahora",
-        },
-        {
-          title: "Mujeres solteras cerca de ti",
-          text: "También quieren el meme. Haz clic para mostrar tu interés (o huir).",
-          media: '<img src="https://media.giphy.com/media/3oEduSbSGpGaRX2Vri/giphy.gif" class="w-full h-52 object-cover" alt="Gif" />',
-          tag: "Match instantáneo",
-          button: "Conocer ahora",
-        },
-        {
-          title: "El antivirus gratis de tu tío",
-          text: "Promete protegerte de todo excepto de esta broma. Instálalo igual.",
-          media: '<div class="bg-[var(--yellow)] text-center font-black py-12 text-xl">Protección 9000</div>',
-          tag: "Seguridad máxima",
-          button: "Instalar.exe",
-        },
-        {
-          title: "1 regalo queda en tu zona",
-          text: "Los expertos dicen que debes clickear YA mismo para no perderlo.",
-          media: '<img src="https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif" class="w-full h-52 object-cover" alt="Gif" />',
-          tag: "Urgente",
-          button: "Lo quiero",
-        },
-        {
-          title: "Regalo rosa certificado",
-          text: "Hello Kitty aprueba este mensaje. Probablemente.",
-          media: '<div class="bg-white text-center font-black py-12 text-xl text-[var(--accent)]">Calidad 100%</div>',
-          tag: "Estándar internacional",
-          button: "Sellar garantía",
-        },
-      ];
-
-      const finalGift = {
-        title: "Ahora sí, regalo real",
-        text: "Escanea el QR o abre el enlace. Prometido, aquí sí hay video chistoso.",
-        qr: "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      };
-
-      const stage = document.getElementById("meme-stage");
-      const img = document.getElementById("meme-image");
-      const titleEl = document.getElementById("meme-title");
-      const textEl = document.getElementById("meme-text");
-      const toast = document.getElementById("toast");
-      const randomBtn = document.getElementById("random-btn");
-      const copyBtn = document.getElementById("copy-btn");
-      const downloadBtn = document.getElementById("download-btn");
-      const panicBtn = document.getElementById("panic-btn");
-
-      const stepSlider = document.getElementById("stepSlider");
-      const stepCount = document.getElementById("stepCount");
-      const startButton = document.getElementById("startButton");
-      const modal = document.getElementById("modal");
-      const closeModal = document.getElementById("closeModal");
-      const modalTitle = document.getElementById("modalTitle");
-      const modalText = document.getElementById("modalText");
-      const modalTag = document.getElementById("modalTag");
-      const modalMedia = document.getElementById("modalMedia");
-      const modalAction = document.getElementById("modalAction");
-      const progressText = document.getElementById("progressText");
-
-      let stepsToGo = Number(stepSlider.value);
-      let currentStep = 0;
-
-      function showToast(message) {
-        toast.textContent = message;
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 2200);
-      }
-
-      function randomMeme() {
-        const pick = memes[Math.floor(Math.random() * memes.length)];
-        img.src = pick.image;
-        titleEl.textContent = pick.title;
-        textEl.textContent = pick.text;
-        stage.animate(
-          [
-            { transform: "scale(0.97)", opacity: 0.85 },
-            { transform: "scale(1)", opacity: 1 },
-          ],
-          { duration: 240, easing: "ease-out" }
-        );
-        showToast("Nuevo meme cargado 🚀");
-      }
-
-      function copyText() {
-        const payload = `${titleEl.textContent} — ${textEl.textContent}`;
-        navigator.clipboard
-          .writeText(payload)
-          .then(() => showToast("Texto copiado. Listo para pegar."))
-          .catch(() => showToast("Ups, tu navegador bloqueó el copiado."));
-      }
-
-      function openImage() {
-        window.open(img.src, "_blank", "noopener");
-        showToast("La imagen se abre en otra pestaña segura.");
-      }
-
-      function panic() {
-        panicBtn.disabled = true;
-        showToast("Modo pánico activado… es broma 🔥");
-        stage
-          .animate(
-            [
-              { transform: "rotate(-1deg) scale(1.01)" },
-              { transform: "rotate(1deg) scale(1.02)" },
-              { transform: "rotate(0deg) scale(1)" },
-            ],
-            { duration: 420, iterations: 4 }
-          )
-          .onfinish = () => (panicBtn.disabled = false);
-      }
-
-      function shuffle(array) {
-        return [...array].sort(() => Math.random() - 0.5);
-      }
-
-      function updateModalProgress(step, total) {
-        progressText.textContent = step < total ? `Paso ${step + 1} de ${total + 1}` : "Premio listo";
-      }
-
-      function renderModal(template) {
-        modalTitle.textContent = template.title;
-        modalText.textContent = template.text;
-        modalTag.textContent = template.tag;
-        modalMedia.innerHTML = template.media;
-        modalAction.textContent = template.button;
-      }
-
-      function renderFinalGift() {
-        modalTitle.textContent = finalGift.title;
-        modalText.textContent = finalGift.text;
-        modalTag.textContent = "Entrega real";
-        modalMedia.innerHTML = `<div class="p-4 flex flex-col items-center gap-3">\
-          <img src="${finalGift.qr}" alt="QR del regalo" class="border-2 border-black rounded-xl" />\
-          <a class="text-blue-700 underline font-bold" href="${finalGift.link}" target="_blank" rel="noopener">Abrir video sorpresa</a>\
-        </div>`;
-        modalAction.textContent = "Volver al inicio";
-      }
-
-      function openModal() {
-        modal.classList.remove("hidden");
-        modal.classList.add("flex", "active");
-      }
-
-      function closeModalView() {
-        modal.classList.add("hidden");
-        modal.classList.remove("flex", "active");
-      }
-
-      function startSequence() {
-        currentStep = 0;
-        const queue = shuffle(baitTemplates).slice(0, stepsToGo);
-        openModal();
-        const handleAction = () => {
-          if (currentStep < queue.length) {
-            renderModal(queue[currentStep]);
-            updateModalProgress(currentStep, queue.length);
-            currentStep += 1;
-          } else {
-            renderFinalGift();
-            updateModalProgress(queue.length, queue.length);
-            modalAction.onclick = () => {
-              closeModalView();
-              modalAction.onclick = handleAction;
-            };
-            return;
-          }
-        };
-
-        modalAction.onclick = handleAction;
-        handleAction();
-      }
-
-      randomBtn.addEventListener("click", randomMeme);
-      copyBtn.addEventListener("click", copyText);
-      downloadBtn.addEventListener("click", openImage);
-      panicBtn.addEventListener("click", panic);
-
-      stepSlider.addEventListener("input", (event) => {
-        stepsToGo = Number(event.target.value);
-        stepCount.textContent = stepsToGo;
-      });
-
-      startButton.addEventListener("click", startSequence);
-      closeModal.addEventListener("click", closeModalView);
-      modal.addEventListener("click", (event) => {
-        if (event.target === modal) closeModalView();
-      });
-
-      randomMeme();
-    </script>
+    <footer>
+      © 2024 Broma retro, hecha con mucho pastel rosado.
+    </footer>
   </body>
 </html>
